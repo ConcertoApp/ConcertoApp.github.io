@@ -92,10 +92,10 @@ duration = (minutes*60) + seconds;
 }
 
 function playFromName(query){
-getYoutube("https://www.google.com/search?q=" + query + " topic".split(' ').join('+') + "&tbm=vid");
+getYoutube("https://www.google.com/search?q=" + query.split(' ').join('+') + " topic" + "&tbm=vid");
 }
 function dataFromName(query){
-getDataOnly("https://www.google.com/search?q=" + query + " topic".split(' ').join('+') + "&tbm=vid");
+getDataOnly("https://www.google.com/search?q=" + query.split(' ').join('+') + " topic" + "&tbm=vid");
 }
 
 function playdelay(name, time, isnotFirst){
@@ -118,7 +118,6 @@ notFirst = true;
 
 }
 }
-
 
 </script>
   
