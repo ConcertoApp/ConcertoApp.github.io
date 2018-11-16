@@ -7,7 +7,7 @@
   <body>
   
   <input id="Input" value="">
-  <button id="Btn" onclick="javascript:buttonpress()">Button</button>
+  <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
   <script>
   /*--------------------------------------------BTUTON CODE----------------------------------------------*/
  
@@ -30,8 +30,8 @@ var youtubeURL = '';
 var youtubeID = '';
 var iframe;
 var duration;
-var videos;
-var durations;
+var videos = [];
+var durations = [];
 
 function doCORSRequest(options, printResult) {
     var x = new XMLHttpRequest();
@@ -65,6 +65,8 @@ doCORSRequest({
         data: ""
       }, function printResult(result) {
         getData(result);
+        videos.push(document.getElementById("Input").value);
+        durations.push(duration);
         });
 }
 function playVideo(url){
