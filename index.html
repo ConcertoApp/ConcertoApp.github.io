@@ -1,0 +1,33 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Concerto</title>
+  </head>
+  <body>
+  
+  <input id="Input" value="">
+  <button id="Btn">Button</button>
+  <script>
+  /*--------------------------------------------BTUTON CODE----------------------------------------------*/
+ 
+  var input = document.getElementById("Input");
+  input.addEventListener("keyup", function(event) {
+      event.preventDefault();
+      if (event.keyCode === 13) {
+          document.getElementById("Btn").click();
+      }
+  });
+  
+  document.getElementById("Btn").onclick = buttonClick();
+  
+  /*---------------------------------------------MAIN CODE-----------------------------------------------*/
+  
+  function buttonClick(){
+    alert("HEY BUD!");
+  }
+  
+</script>
+  
+  </body>
+</html>
