@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
@@ -18,13 +18,108 @@
           document.getElementById("Btn").click();
       }
   });
-  
-  /*---------------------------------------------MAIN CODE-----------------------------------------------*/
-  
-   function buttonpress(){
-    alert("Hello world v2!");
-   }
    
+   function buttonpress(){
+    getDataOnly(document.getElementById("Input").value);
+   }
+  
+  /*-----------------MAIN CODE (copy and paste from drive because this is a hard workspace)---------------*/
+   
+var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
+var youtubeURL = '';
+var youtubeID = '';
+var iframe;
+var duration;
+var videos;
+var durations;
+
+function doCORSRequest(options, printResult) {
+    var x = new XMLHttpRequest();
+    x.open(options.method, cors_api_url + options.url);
+    x.onload = x.onerror = function() {
+      printResult(
+        options.method + ' ' + options.url + '\n' +
+        x.status + ' ' + x.statusText + '\n\n' +
+        (x.responseText || '')
+      );
+    };
+    if (/^POST/i.test(options.method)) {
+      x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    }
+    x.send(options.data);
+  }
+function getYoutube(myurl){
+doCORSRequest({
+        method: 'GET',
+        url: myurl,
+        data: ""
+      }, function printResult(result) {
+        getData(result);
+        playVideo(youtubeID);
+        });
+}
+function getDataOnly(myurl){
+doCORSRequest({
+        method: 'GET',
+        url: myurl,
+        data: ""
+      }, function printResult(result) {
+        getData(result);
+        });
+}
+function playVideo(url){
+ifrm = document.createElement('iframe');
+ifrm.setAttribute('id', 'ifrm');
+document.body.appendChild(ifrm);
+//ifrm.setAttribute('style', 'visibility: hidden');
+ifrm.setAttribute('src', 'http://www.youtube.com/embed/' + url + '?autoplay=1');
+}
+
+function removeVideo(){
+ifrm.remove();
+}
+
+function getData(result){
+var firstbit = result.substring(result.indexOf('class="iUh30"'));
+youtubeURL = firstbit.substring(firstbit.indexOf('>') + 1, firstbit.indexOf('</cite>'));
+youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);
+
+var firstdirbit = result.substring(result.indexOf('<span class="vdur mWTy7c">') + 39);
+var timestamp = firstdirbit.substring(0, firstdirbit.indexOf('</span>'));
+var minutes = Math.floor(timestamp.substring(0, timestamp.indexOf(":")));
+var seconds = Math.floor(timestamp.substring(timestamp.indexOf(":") + 1));
+duration = (minutes*60) + seconds;
+}
+
+function playFromName(query){
+getYoutube("https://www.google.com/search?q=" + query + " topic".split(' ').join('+') + "&tbm=vid");
+}
+function dataFromName(query){
+getDataOnly("https://www.google.com/search?q=" + query + " topic".split(' ').join('+') + "&tbm=vid");
+}
+
+function playdelay(name, time, isnotFirst){
+if(isnotFirst){
+setTimeout(function(){removeVideo(); console.log("hey"); playFromName(name);}, time);
+} else {
+setTimeout(function(){console.log("hey"); playFromName(name);}, time);
+}
+}
+
+function playList(videos, durations){
+var notFirst = false;
+var cumulativedur = 0;
+for(i=0;i<videos.length;i++){
+
+playdelay(videos[i], cumulativedur, notFirst);
+cumulativedur = cumulativedur + ((durations[i] + 6) * 1000);
+console.log(i + " | " + cumulativedur + " | " + durations[i]);
+notFirst = true;
+
+}
+}
+
+
 </script>
   
   </body>
