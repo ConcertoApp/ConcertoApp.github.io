@@ -1,139 +1,146 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Concerto</title>
-  </head>
-  <body>
-  
-  <input id="Input" value="">
-  <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
-<button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
-  <div id="Tracklist"></div>
-  <script>
-  /*--------------------------------------------BTUTON CODE----------------------------------------------*/
- 
-  var input = document.getElementById("Input");
-  input.addEventListener("keyup", function(event) {
-      event.preventDefault();
-      if (event.keyCode === 13) {
-          document.getElementById("Btn").click();
-      }
-  });
-   
-   function buttonpress(){
-       if(!loading){
-       loading = true;
-       document.getElementById("Btn").style="visibility: hidden";
-       console.log("pressed");
-       dataFromName(document.getElementById("Input").value);
-       document.getElementById("Input").value="";
-       }
-   }
-      
-   function buttonpress2(){
-       if(!playing){
-       playing = true;
-       playList(videos, durations);
-       }
-    }
-  
-  /*-----------------MAIN CODE (copy and paste from drive because this is a hard workspace)---------------*/
-   
+</head>
 
-var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
-var youtubeURL = '';
-var youtubeID = '';
-var iframe;
-var duration;
-var videos = [];
-var durations = [];
-var loading = false;
-var playing = false;
-function doCORSRequest(options, printResult) {
-    var x = new XMLHttpRequest();
-    x.open(options.method, cors_api_url + options.url);
-    x.onload = x.onerror = function() {
-      printResult(
-        options.method + ' ' + options.url + '\n' +
-        x.status + ' ' + x.statusText + '\n\n' +
-        (x.responseText || '')
-      );
-    };
-    if (/^POST/i.test(options.method)) {
-      x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    }
-    x.send(options.data);
-  }
-function getYoutube(myurl){
-doCORSRequest({
-        method: 'GET',
-        url: myurl,
-        data: ""
-      }, function printResult(result) {
-        getData(result);
-        playVideo(youtubeID);
+<body>
+
+    <input id="Input" value="">
+    <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
+    <button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
+    <div id="Tracklist"></div>
+    <script>
+        /*--------------------------------------------BTUTON CODE----------------------------------------------*/
+
+        var input = document.getElementById("Input");
+        input.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("Btn").click();
+            }
         });
-}
-function getDataOnly(myurl, songtitle){
-doCORSRequest({
-        method: 'GET',
-        url: myurl,
-        data: ""
-      }, function printResult(result) {
-        getData(result);
-        document.getElementById("Btn").style="visibility: visible";
-        document.getElementById("Tracklist").innerHTML=document.getElementById("Tracklist").innerHTML + "<br>" + youtubeURL + " | " + duration;
-        loading = false;
-        });
-}
-function playVideo(url){
-console.log(url);
-ifrm = document.createElement('iframe');
-ifrm.setAttribute('id', 'ifrm');
-document.body.appendChild(ifrm);
-//ifrm.setAttribute('style', 'visibility: hidden');
-ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560');
-}
-function removeVideo(){
-ifrm.remove();
-}
-function getData(result){
-var firstbit = result.substring(result.indexOf('class="iUh30"'));
-youtubeURL = firstbit.substring(firstbit.indexOf('>') + 1, firstbit.indexOf('</cite>'));
-youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);
-var firstdirbit = result.substring(result.indexOf('<span class="vdur mWTy7c">') + 39);
-var timestamp = firstdirbit.substring(0, firstdirbit.indexOf('</span>'));
-var minutes = Math.floor(timestamp.substring(0, timestamp.indexOf(":")));
-var seconds = Math.floor(timestamp.substring(timestamp.indexOf(":") + 1));
-duration = (minutes*60) + seconds;
-durations.push(duration);
-videos.push(youtubeID);
-}
-function playFromName(query){
-getYoutube("https://www.google.com/search?q=" + query.split(' ').join('+') + "+topic" + "&tbm=vid");
-}
-function dataFromName(query){
-getDataOnly("https://www.google.com/search?q=" + query.split(' ').join('+') + "+topic" + "&tbm=vid", query);
-}
-function playdelay(name, time, isnotFirst){
-if(isnotFirst){
-setTimeout(function(){removeVideo(); console.log("hey"); playVideo(name);}, time);
-} else {
-setTimeout(function(){console.log("hey"); playVideo(name);}, time);
-}
-}
-function playList(videos, durations){
-var notFirst = false;
-var cumulativedur = 0;
-for(i=0;i<videos.length;i++){
-playdelay(videos[i], cumulativedur, notFirst);
-cumulativedur = cumulativedur + ((durations[i] + 6) * 1000);
-console.log(i + " | " + cumulativedur + " | " + durations[i]);
-notFirst = true;
-}
-}
-</script>
-  
-  </body>
+
+        function buttonpress() {
+            if (!loading) {
+                loading = true;
+                document.getElementById("Btn").style = "visibility: hidden";
+                console.log("pressed");
+                dataFromName(document.getElementById("Input").value);
+                document.getElementById("Input").value = "";
+            }
+        }
+
+        function buttonpress2() {
+            if (!playing) {
+                document.getElementById("PlayBtn").style="visibility: hidden";
+                playing = true;
+                playList(videos, durations);
+            }
+        }
+
+        /*--------------------------------------------MAIN CODE-----------------------------------------------*/
+
+
+        var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
+        var youtubeURL = '';
+        var youtubeID = '';
+        var iframe;
+        var duration;
+        var videos = [];
+        var durations = [];
+        var loading = false;
+        var playing = false;
+        var timestamp;
+
+        function doCORSRequest(options, printResult) {
+            var x = new XMLHttpRequest();
+            x.open(options.method, cors_api_url + options.url);
+            x.onload = x.onerror = function() {
+                printResult(
+                    options.method + ' ' + options.url + '\n' +
+                    x.status + ' ' + x.statusText + '\n\n' +
+                    (x.responseText || '')
+                );
+            };
+            if (/^POST/i.test(options.method)) {
+                x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            }
+            x.send(options.data);
+        }
+
+        function getDataOnly(myurl, songtitle) {
+            doCORSRequest({
+                method: 'GET',
+                url: myurl,
+                data: ""
+            }, function printResult(result) {
+                getData(result);
+                document.getElementById("Btn").style = "visibility: visible";
+                document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
+                loading = false;
+            });
+        }
+
+        function playVideo(url) {
+            console.log(url);
+            ifrm = document.createElement('iframe');
+            ifrm.setAttribute('id', 'ifrm');
+            document.body.appendChild(ifrm);
+            //ifrm.setAttribute('style', 'visibility: hidden');
+            ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560');
+        }
+
+        function removeVideo() {
+            ifrm.remove();
+        }
+
+        function getData(result) {
+            var firstbit = result.substring(result.indexOf('class="iUh30"'));
+            youtubeURL = firstbit.substring(firstbit.indexOf('>') + 1, firstbit.indexOf('</cite>'));
+            youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);
+            var firstdirbit = result.substring(result.indexOf('<span class="vdur mWTy7c">') + 39);
+            timestamp = firstdirbit.substring(0, firstdirbit.indexOf('</span>'));
+            var minutes = Math.floor(timestamp.substring(0, timestamp.indexOf(":")));
+            var seconds = Math.floor(timestamp.substring(timestamp.indexOf(":") + 1));
+            duration = (minutes * 60) + seconds;
+            durations.push(duration);
+            videos.push(youtubeID);
+        }
+
+        function dataFromName(query) {
+            getDataOnly("https://www.google.com/search?q=" + query.split(' ').join('+') + "+topic" + "&tbm=vid", query);
+        }
+
+        function playdelay(name, time, isnotFirst) {
+            if (isnotFirst) {
+                setTimeout(function() {
+                    removeVideo();
+                    console.log("hey");
+                    playVideo(name);
+                }, time);
+            } else {
+                setTimeout(function() {
+                    console.log("hey");
+                    playVideo(name);
+                }, time);
+            }
+        }
+
+        function playList(videos, durations) {
+            var notFirst = false;
+            var cumulativedur = 0;
+            for (i = 0; i < videos.length; i++) {
+                playdelay(videos[i], cumulativedur, notFirst);
+                cumulativedur = cumulativedur + ((durations[i] + 6) * 1000);
+                console.log(i + " | " + cumulativedur + " | " + durations[i]);
+                notFirst = true;
+            }
+        }
+    </script>
+
+</body>
+
 </html>
