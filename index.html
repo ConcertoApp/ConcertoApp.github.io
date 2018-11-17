@@ -13,6 +13,9 @@
     <button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
     <div id="Tracklist"></div>
     <script>
+       
+        
+        
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
 
         var input = document.getElementById("Input");
@@ -40,9 +43,8 @@
                 playList(videos, durations);
             }
         }
-
-        /*--------------------------------------------MAIN CODE-----------------------------------------------*/
-
+        
+        /*--------------------------------------------MAIN CODE---------------------------------------------*/
 
         var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
         var youtubeURL = '';
@@ -139,6 +141,17 @@
                 notFirst = true;
             }
         }
+        
+        /*--------------------------------------------TIME CODE---------------------------------------------*/
+        
+        var startTime = window.location.hash.substring(1) * 1000;
+        var currentTime = Date.now();
+        
+        setTimeout(function(){
+            playList(videos, durations);
+        }, starTime - currentTime);
+    
+    
     </script>
 
 </body>
