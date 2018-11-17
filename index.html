@@ -8,8 +8,8 @@
   
   <input id="Input" value="">
   <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
+<button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
   <div id="Tracklist"></div>
-  <button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
   <script>
   /*--------------------------------------------BTUTON CODE----------------------------------------------*/
  
@@ -32,8 +32,11 @@
    }
       
    function buttonpress2(){
+       if(!playing){
+       playing = true;
        playList(videos, durations);
-   }
+       }
+    }
   
   /*-----------------MAIN CODE (copy and paste from drive because this is a hard workspace)---------------*/
    
@@ -46,6 +49,7 @@ var duration;
 var videos = [];
 var durations = [];
 var loading = false;
+var playing = false;
 function doCORSRequest(options, printResult) {
     var x = new XMLHttpRequest();
     x.open(options.method, cors_api_url + options.url);
@@ -79,7 +83,7 @@ doCORSRequest({
       }, function printResult(result) {
         getData(result);
         document.getElementById("Btn").style="visibility: visible";
-        document.getElementById("Tracklist").innerHTML=document.getElementById("Tracklist").innerHTML + "\n" + youtubeURL + " | " + duration;
+        document.getElementById("Tracklist").innerHTML=document.getElementById("Tracklist").innerHTML + "<br>" + youtubeURL + " | " + duration;
         loading = false;
         });
 }
