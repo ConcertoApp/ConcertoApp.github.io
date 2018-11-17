@@ -147,10 +147,11 @@
         var startTime = window.location.hash.substring(1) * 1000;
         var currentTime = Date.now();
         
+        if(startTime != 0){
         setTimeout(function(){
             playList(videos, durations);
         }, starTime - currentTime);
-    
+        }
     
     </script>
 
