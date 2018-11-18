@@ -152,11 +152,11 @@
         if(window.location.hash.length > 0){
             startTime = window.location.hash.substring(1, window.location.hash.indexOf("&"));
             currentTime = Date.now();
-            hashlist = JSON.parse((window.location.hash.substring(window.location.hash.indexOf("&") + 1)).split("%22").join('"'));
+            hashlist = (window.location.hash.substring(window.location.hash.indexOf("&") + 1)).split(",");
             for(var i = 0; i < hashlist.length; i++){
                 videos.push(hashlist[i]);
                 i++;
-                durations.push(hashlist[i]);
+                durations.push(JSON.parse(hashlist[i]));
             }
             setTimeout(function(){
                 document.getElementById("PlayBtn").click();
@@ -168,7 +168,7 @@
                 hashlist.push(videos[i]);
                 hashlist.push(durations[i]);
             }
-            return window.location.origin + "/#" + time + "&" + JSON.stringify(hashlist).split('\\"').join('"');
+            return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
         
         
