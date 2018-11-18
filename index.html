@@ -168,7 +168,7 @@
                 hashlist.push(videos[i]);
                 hashlist.push(durations[i]);
             }
-            return window.location.origin + "/#" + time + "&" + JSON.stringify(hashlist);
+            return window.location.origin + "/#" + time + "&" + JSON.stringify(hashlist).split('\\"').join('"');
         }
         
         
