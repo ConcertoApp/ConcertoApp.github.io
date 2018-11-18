@@ -56,6 +56,9 @@
         var loading = false;
         var playing = false;
         var timestamp;
+        var hashlist= [];
+        var startTime;
+        var currentTime;
 
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
@@ -142,15 +145,32 @@
             }
         }
         
-        /*--------------------------------------------TIME CODE---------------------------------------------*/
+        /*--------------------------------------------HASH CODE---------------------------------------------*/
         
-        var startTime = window.location.hash.substring(1) * 1000;
-        var currentTime = Date.now();
+        
+        if(window.location.hash.length > 0){
+            startTime = window.location.hash.substring(1, window.location.hash.indexOf("&"));
+            currentTime = Date.now();
+            hashlist = JSON.pasrse(window.location.hash.substring(window.location.hash.indexOf("&") + 1));
+            for(var i = 0; i <= (hashlist.length/2); i++){
+                videos.push(hashlist[i]);
+                i++;
+                durations.push(hashlist[i]);
+            }
+        }
+        
+        function getLink (time, videos, durations){
+            for(var i = 0; i<= videos.length; i++){
+                hashlist.push(videos[i]);
+                hashlist.push(durations[i]);
+            }
+            return window.location.origin + "/#" + time + "&" + JSON.stringify(hashlist);
+        }
         
         if(startTime != 0){
         setTimeout(function(){
             playList(videos, durations);
-        }, startTime - currentTime);
+        }, starTime - currentTime);
         }
     
     </script>
