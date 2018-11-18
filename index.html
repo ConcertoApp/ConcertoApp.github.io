@@ -158,6 +158,9 @@
                 i++;
                 durations.push(hashlist[i]);
             }
+            setTimeout(function(){
+                document.getElementById("PlayBtn").click();
+            }, startTime - currentTime);
         }
         
         function getLink (time, videos, durations){
@@ -168,11 +171,7 @@
             return window.location.origin + "/#" + time + "&" + JSON.stringify(hashlist);
         }
         
-        if(startTime != 0){
-        setTimeout(function(){
-            document.getElementById("PlayBtn").click();
-        }, startTime - currentTime);
-        }
+        
     
     </script>
 
