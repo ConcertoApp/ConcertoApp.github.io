@@ -11,42 +11,16 @@
     <input id="Input" value="">
     <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
     <button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
+    <br>
     <div id="Tracklist"></div>
+    <br>
+    <div>
+    Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button><div id="linkspot"></div><br>
+    </div>
     <script>
        
         //getLink((Math.floor(Date.now()/1000)+60)*1000, videos, durations);
         
-        
-        /*--------------------------------------------BTUTON CODE----------------------------------------------*/
-
-        var input = document.getElementById("Input");
-        input.addEventListener("keyup", function(event) {
-            event.preventDefault();
-            if (event.keyCode === 13) {
-                document.getElementById("Btn").click();
-            }
-        });
-
-        function buttonpress() {
-            if (!loading) {
-                loading = true;
-                document.getElementById("Btn").style = "visibility: hidden";
-                console.log("pressed");
-                dataFromName(document.getElementById("Input").value);
-                document.getElementById("Input").value = "";
-            }
-        }
-
-        function buttonpress2() {
-            if (!playing) {
-                document.getElementById("PlayBtn").style="visibility: hidden";
-                playing = true;
-                playList(videos, durations);
-            }
-        }
-        
-        /*--------------------------------------------MAIN CODE---------------------------------------------*/
-
         var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
         var youtubeURL = '';
         var youtubeID = '';
@@ -60,6 +34,44 @@
         var hashlist= [];
         var startTime;
         var currentTime;
+        var link;
+        
+        /*--------------------------------------------BTUTON CODE----------------------------------------------*/
+        var input = document.getElementById("Input");
+        input.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("Btn").click();
+            }
+        });
+        function buttonpress() {
+            if (!loading) {
+                loading = true;
+                document.getElementById("Btn").style = "visibility: hidden";
+                console.log("pressed");
+                dataFromName(document.getElementById("Input").value);
+                document.getElementById("Input").value = "";
+            }
+        }
+        function buttonpress2() {
+            if (!playing) {
+                document.getElementById("PlayBtn").style="visibility: hidden";
+                playing = true;
+                playList(videos, durations);
+            }
+        }
+        function buttonpress3() {
+            link = document.createElement('a');
+            link.innerHTML = getLink((Math.floor(Date.now()/1000)+document.getElementById("Seconds").value)*1000, videos, durations);
+            link.href = 'javascript:linkcode()';
+            document.getElementById("linkspot").appendChild(link);
+        }
+        function linkcode() {
+            window.location = link.innerHTML;
+            location.reload();
+        }
+        
+        /*--------------------------------------------MAIN CODE---------------------------------------------*/
 
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
@@ -76,7 +88,6 @@
             }
             x.send(options.data);
         }
-
         function getDataOnly(myurl, songtitle) {
             doCORSRequest({
                 method: 'GET',
@@ -89,7 +100,6 @@
                 loading = false;
             });
         }
-
         function playVideo(url) {
             console.log(url);
             ifrm = document.createElement('iframe');
@@ -99,11 +109,9 @@
             ifrm.setAttribute('allow', "autoplay");
             //ifrm.setAttribute('style', 'visibility: hidden');
         }
-
         function removeVideo() {
             ifrm.remove();
         }
-
         function getData(result) {
             var firstbit = result.substring(result.indexOf('class="iUh30"'));
             youtubeURL = firstbit.substring(firstbit.indexOf('>') + 1, firstbit.indexOf('</cite>'));
@@ -116,11 +124,9 @@
             durations.push(duration);
             videos.push(youtubeID);
         }
-
         function dataFromName(query) {
             getDataOnly("https://www.google.com/search?q=" + query.split(' ').join('+') + "+topic" + "&tbm=vid", query);
         }
-
         function playdelay(name, time, isnotFirst) {
             if (isnotFirst) {
                 setTimeout(function() {
@@ -135,7 +141,6 @@
                 }, time);
             }
         }
-
         function playList(videos, durations) {
             var notFirst = false;
             var cumulativedur = 0;
