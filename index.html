@@ -62,7 +62,7 @@
         }
         function buttonpress3() {
             link = document.createElement('a');
-            link.innerHTML = getLink((Math.floor(Date.now()/1000)+document.getElementById("Seconds").value)*1000, videos, durations);
+            link.innerHTML = getLink((Math.floor(Date.now()/1000)+JSON.parse(document.getElementById("Seconds").value))*1000, videos, durations);
             link.href = 'javascript:linkcode()';
             document.getElementById("linkspot").appendChild(link);
         }
