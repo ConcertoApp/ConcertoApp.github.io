@@ -22,7 +22,6 @@
     </div>
         
     <script>
-
         var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
         var youtubeURL = '';
         var youtubeID = '';
@@ -39,9 +38,7 @@
         var currentTime;
         var link;
         var hash = window.location.hash.split('&amp;').join('&');
-
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
-
         var input = document.getElementById("Input");
         input.addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -49,7 +46,6 @@
                 document.getElementById("Btn").click();
             }
         });
-
         function buttonpress() {
             if (!loading) {
                 loading = true;
@@ -58,11 +54,8 @@
                 console.log("pressed");
                 dataFromName(document.getElementById("Input").value);
                 document.getElementById("Input").value = "";
-                added = true;
-                document.getElementById("bottomcommands").style = "visibility: visible";
             }
         }
-
         function buttonpress2() {
             if (!playing && !loading) {
                 document.getElementById("PlayBtn").style = "visibility: hidden";
@@ -70,7 +63,6 @@
                 playList(videos, durations);
             }
         }
-
         function buttonpress3() {
             if (!loading && added) {
                 link = document.createElement('a');
@@ -79,12 +71,10 @@
                 document.getElementById("linkspot").appendChild(link);
             }
         }
-
         function linkcode() {
             window.location = link.innerHTML;
             location.reload();
         }
-
         /*--------------------------------------------MAIN CODE---------------------------------------------*/
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
@@ -101,7 +91,6 @@
             }
             x.send(options.data);
         }
-
         function getDataOnly(myurl, songtitle) {
             doCORSRequest({
                 method: 'GET',
@@ -113,9 +102,10 @@
                 document.getElementById("PlayBtn").style = "visibility: visible";
                 document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
                 loading = false;
+                added = true;
+                document.getElementById("bottomcommands").style = "visibility: visible";
             });
         }
-
         function playVideo(url) {
             console.log(url);
             ifrm = document.createElement('iframe');
@@ -123,13 +113,10 @@
             document.body.appendChild(ifrm);
             ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560');
             ifrm.setAttribute('allow', "autoplay");
-            //ifrm.setAttribute('style', 'visibility: hidden');
         }
-
         function removeVideo() {
             ifrm.remove();
         }
-
         function getData(result) {
             var firstbit = result.substring(result.indexOf('class="iUh30"'));
             youtubeURL = firstbit.substring(firstbit.indexOf('>') + 1, firstbit.indexOf('</cite>'));
@@ -142,11 +129,9 @@
             durations.push(duration);
             videos.push(youtubeID);
         }
-
         function dataFromName(query) {
             getDataOnly("https://www.google.com/search?q=" + query.split(' ').join('+') + "+topic" + "&tbm=vid", query);
         }
-
         function playdelay(name, time, isnotFirst) {
             if (isnotFirst) {
                 setTimeout(function() {
@@ -161,7 +146,6 @@
                 }, time);
             }
         }
-
         function playList(videos, durations) {
             var notFirst = false;
             var cumulativedur = 0;
@@ -172,7 +156,6 @@
                 notFirst = true;
             }
         }
-
         /*---------------------------------------LINK/HASH CODE---------------------------------------------*/
         if (window.location.hash.length > 0) {
             startTime = hash.substring(1, hash.indexOf("&"));
@@ -187,7 +170,6 @@
                 document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
         }
-
         function getLink(time, videos, durations) {
             hashlist = [];
             for (var i = 0; i < videos.length; i++) {
@@ -196,7 +178,6 @@
             }
             return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
-
     </script>
 
 </body>
