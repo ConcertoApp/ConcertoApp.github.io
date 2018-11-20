@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -12,16 +11,18 @@
     <input id="Input" value="">
     <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
     <button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
+   
     <br>
     <div id="Tracklist"></div>
     <br>
-    <div>
-    Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button><div id="linkspot"></div><br>
+      
+    <div id="bottomcommands" style="visibility : hidded">
+        Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button>
+        <div id="linkspot"></div><br>
     </div>
-    <script>
-       
-        //getLink((Math.floor(Date.now()/1000)+60)*1000, videos, durations);
         
+    <script>
+
         var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
         var youtubeURL = '';
         var youtubeID = '';
@@ -31,14 +32,16 @@
         var durations = [];
         var loading = false;
         var playing = false;
+        var added = false;
         var timestamp;
-        var hashlist= [];
+        var hashlist = [];
         var startTime;
         var currentTime;
         var link;
         var hash = window.location.hash.split('&amp;').join('&');
-        
+
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
+
         var input = document.getElementById("Input");
         input.addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -46,33 +49,42 @@
                 document.getElementById("Btn").click();
             }
         });
+
         function buttonpress() {
             if (!loading) {
                 loading = true;
                 document.getElementById("Btn").style = "visibility: hidden";
+                document.getElementById("PlayBtn").style = "visibility: hidden";
                 console.log("pressed");
                 dataFromName(document.getElementById("Input").value);
                 document.getElementById("Input").value = "";
+                added = true;
+                document.getElementById("bottomcommands").style = "visibility: visible";
             }
         }
+
         function buttonpress2() {
-            if (!playing) {
-                document.getElementById("PlayBtn").style="visibility: hidden";
+            if (!playing && !loading) {
+                document.getElementById("PlayBtn").style = "visibility: hidden";
                 playing = true;
                 playList(videos, durations);
             }
         }
+
         function buttonpress3() {
-            link = document.createElement('a');
-            link.innerHTML = getLink((Math.floor(Date.now()/1000)+JSON.parse(document.getElementById("Seconds").value))*1000, videos, durations);
-            link.href = 'javascript:linkcode()';
-            document.getElementById("linkspot").appendChild(link);
+            if (!loading && added) {
+                link = document.createElement('a');
+                link.innerHTML = getLink((Math.floor(Date.now() / 1000) + JSON.parse(document.getElementById("Seconds").value)) * 1000, videos, durations);
+                link.href = 'javascript:linkcode()';
+                document.getElementById("linkspot").appendChild(link);
+            }
         }
+
         function linkcode() {
             window.location = link.innerHTML;
             location.reload();
         }
-        
+
         /*--------------------------------------------MAIN CODE---------------------------------------------*/
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
@@ -89,6 +101,7 @@
             }
             x.send(options.data);
         }
+
         function getDataOnly(myurl, songtitle) {
             doCORSRequest({
                 method: 'GET',
@@ -97,10 +110,12 @@
             }, function printResult(result) {
                 getData(result);
                 document.getElementById("Btn").style = "visibility: visible";
+                document.getElementById("PlayBtn").style = "visibility: visible";
                 document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
                 loading = false;
             });
         }
+
         function playVideo(url) {
             console.log(url);
             ifrm = document.createElement('iframe');
@@ -110,9 +125,11 @@
             ifrm.setAttribute('allow', "autoplay");
             //ifrm.setAttribute('style', 'visibility: hidden');
         }
+
         function removeVideo() {
             ifrm.remove();
         }
+
         function getData(result) {
             var firstbit = result.substring(result.indexOf('class="iUh30"'));
             youtubeURL = firstbit.substring(firstbit.indexOf('>') + 1, firstbit.indexOf('</cite>'));
@@ -125,9 +142,11 @@
             durations.push(duration);
             videos.push(youtubeID);
         }
+
         function dataFromName(query) {
             getDataOnly("https://www.google.com/search?q=" + query.split(' ').join('+') + "+topic" + "&tbm=vid", query);
         }
+
         function playdelay(name, time, isnotFirst) {
             if (isnotFirst) {
                 setTimeout(function() {
@@ -142,6 +161,7 @@
                 }, time);
             }
         }
+
         function playList(videos, durations) {
             var notFirst = false;
             var cumulativedur = 0;
@@ -152,34 +172,31 @@
                 notFirst = true;
             }
         }
-        
-        /*--------------------------------------------HASH CODE---------------------------------------------*/
-        
-        
-        if(window.location.hash.length > 0){
+
+        /*---------------------------------------LINK/HASH CODE---------------------------------------------*/
+        if (window.location.hash.length > 0) {
             startTime = hash.substring(1, hash.indexOf("&"));
             currentTime = Date.now();
             hashlist = (hash.substring(hash.indexOf("&") + 1)).split(",");
-            for(var i = 0; i < hashlist.length; i++){
+            for (var i = 0; i < hashlist.length; i++) {
                 videos.push(hashlist[i]);
                 i++;
                 durations.push(JSON.parse(hashlist[i]));
             }
-            setTimeout(function(){
+            setTimeout(function() {
                 document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
         }
-        
-        function getLink (time, videos, durations){
-            for(var i = 0; i< videos.length; i++){
+
+        function getLink(time, videos, durations) {
+            hashlist = [];
+            for (var i = 0; i < videos.length; i++) {
                 hashlist.push(videos[i]);
                 hashlist.push(durations[i]);
             }
             return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
-        
-        
-    
+
     </script>
 
 </body>
