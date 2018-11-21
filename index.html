@@ -12,7 +12,7 @@
     <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
     <button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
    
-    <br>
+    <br> <br>
     <div id="Tracklist"></div>
     <br>
       
@@ -38,7 +38,9 @@
         var currentTime;
         var link;
         var hash = window.location.hash.split('&amp;').join('&');
+        
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
+        
         var input = document.getElementById("Input");
         input.addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -49,6 +51,7 @@
         function buttonpress() {
             if (!loading) {
                 loading = true;
+                document.getElementById("linkBtn").style = "visibility: hidden";
                 document.getElementById("Btn").style = "visibility: hidden";
                 document.getElementById("PlayBtn").style = "visibility: hidden";
                 console.log("pressed");
@@ -75,7 +78,9 @@
             window.location = link.innerHTML;
             location.reload();
         }
+        
         /*--------------------------------------------MAIN CODE---------------------------------------------*/
+        
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
             x.open(options.method, cors_api_url + options.url);
@@ -104,6 +109,7 @@
                 loading = false;
                 added = true;
                 document.getElementById("bottomcommands").style = "visibility: visible";
+                document.getElementById("linkBtn").style = "visibility: visible";
             });
         }
         function playVideo(url) {
@@ -156,7 +162,9 @@
                 notFirst = true;
             }
         }
+        
         /*---------------------------------------LINK/HASH CODE---------------------------------------------*/
+        
         if (window.location.hash.length > 0) {
             startTime = hash.substring(1, hash.indexOf("&"));
             currentTime = Date.now();
