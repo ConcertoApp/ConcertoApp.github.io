@@ -7,11 +7,16 @@
 </head>
 
 <body>
-
+    
+    <div id="countdown"></div>
+    
+<div id="commands">
+    <div id="topcommands">
     <input id="Input" value="">
     <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
     <button id="PlayBtn" onclick="javascript:buttonpress2()">Play</button>
-   
+    </div>
+        
     <br> <br>
     <div id="Tracklist"></div>
     <br>
@@ -20,7 +25,8 @@
         Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button>
         <div id="linkspot"></div><br>
     </div>
-        
+</div>
+    
     <script>
         var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
         var youtubeURL = '';
@@ -163,9 +169,13 @@
             }
         }
         
-        /*---------------------------------------LINK/HASH CODE---------------------------------------------*/
+        /*---------------------------------------LINK/TIMER CODE--------------------------------------------*/
         
         if (window.location.hash.length > 0) {
+            
+            document.getElementById("topcommands").style = "visibility: hidden";
+            setInterval(onTimerTick, 33);
+            
             startTime = hash.substring(1, hash.indexOf("&"));
             currentTime = Date.now();
             hashlist = (hash.substring(hash.indexOf("&") + 1)).split(",");
@@ -186,6 +196,19 @@
             }
             return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
+        
+        function timeStamp(seconds) {
+            return Math.floor(seconds/60) + ":" + seconds % 60;
+        }
+        
+        function onTimerTick(){
+            if(Math.floor((startTime-currentTime) / 1000) > 0){
+                document.getElementById("countdown").innerHTML = getLink(Math.floor((startTime-currentTime) / 1000));
+            } else {
+                document.getElementById("countdown").innerHTML = "";
+            }
+        }
+        
     </script>
 
 </body>
