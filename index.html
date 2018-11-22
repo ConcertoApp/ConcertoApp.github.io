@@ -132,9 +132,9 @@
         function getData(result) {
             var firstbit = result.substring(result.indexOf('https://www.youtube.com'));
             youtubeURL = firstbit.substring(0, firstbit.indexOf('"'));
-            youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);
-            var firstdirbit = firstbit.substring(result.indexOf('▶ ') + 2);
-            timestamp = firstdirbit.substring(0, firstdirbit.indexOf('</span>'));
+            youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);                        
+            var firstdirbit = firstbit.substring(firstbit.indexOf('▶ ') + 2);
+            timestamp = firstdirbit.substring(0, firstdirbit.indexOf('</span>'));            
             var minutes = Math.floor(timestamp.substring(0, timestamp.indexOf(":")));
             var seconds = Math.floor(timestamp.substring(timestamp.indexOf(":") + 1));
             duration = (minutes * 60) + seconds;
