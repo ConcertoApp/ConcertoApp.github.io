@@ -203,7 +203,7 @@
         
         function onTimerTick(){
             if(Math.floor((startTime-currentTime) / 1000) > 0){
-                document.getElementById("countdown").innerHTML = timeStamp(Math.floor((startTime-currentTime) / 1000));
+                document.getElementById("countdown").innerHTML = timeStamp(Math.floor((startTime-Date.now()) / 1000));
             } else {
                 document.getElementById("countdown").innerHTML = "";
             }
