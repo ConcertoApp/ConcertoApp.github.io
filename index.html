@@ -130,10 +130,10 @@
             ifrm.remove();
         }
         function getData(result) {
-            var firstbit = result.substring(result.indexOf('class="iUh30"'));
-            youtubeURL = firstbit.substring(firstbit.indexOf('>') + 1, firstbit.indexOf('</cite>'));
+            var firstbit = result.substring(result.indexOf('https://www.youtube.com'));
+            youtubeURL = firstbit.substring(0, firstbit.indexOf('"'));
             youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);
-            var firstdirbit = result.substring(result.indexOf('<span class="vdur mWTy7c">') + 39);
+            var firstdirbit = firstbit.substring(result.indexOf('▶ ') + 2);
             timestamp = firstdirbit.substring(0, firstdirbit.indexOf('</span>'));
             var minutes = Math.floor(timestamp.substring(0, timestamp.indexOf(":")));
             var seconds = Math.floor(timestamp.substring(timestamp.indexOf(":") + 1));
@@ -142,7 +142,7 @@
             videos.push(youtubeID);
         }
         function dataFromName(query) {
-            getDataOnly("https://www.google.com/search?q=" + query.split(' ').join('+') + "+topic" + "&tbm=vid", query);
+            getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+') + "+topic", query);
         }
         function playdelay(name, time, isnotFirst) {
             if (isnotFirst) {
