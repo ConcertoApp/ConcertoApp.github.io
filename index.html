@@ -58,6 +58,15 @@
                 document.getElementById("Btn").click();
             }
         });
+        
+        var input2 = document.getElementById("Input");
+        input2.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("linkBtn").click();
+            }
+        });
+        
         function buttonpress() {
             if (!loading) {
                 loading = true;
@@ -69,6 +78,7 @@
                 document.getElementById("Input").value = "";
             }
         }
+        
         function buttonpress2() {
             if (!playing && !loading) {
                 document.getElementById("PlayBtn").style = "visibility: hidden";
@@ -76,6 +86,7 @@
                 playList(videos, durations);
             }
         }
+        
         function buttonpress3() {
             if (!loading && added) {
                 link = document.createElement('a');
@@ -84,6 +95,7 @@
                 document.getElementById("linkspot").appendChild(link);
             }
         }
+        
         function linkcode() {
             window.location = link.innerHTML;
             location.reload();
@@ -106,6 +118,7 @@
             }
             x.send(options.data);
         }
+        
         function getDataOnly(myurl, songtitle) {
             doCORSRequest({
                 method: 'GET',
@@ -122,6 +135,7 @@
                 document.getElementById("linkBtn").style = "visibility: visible";
             });
         }
+        
         function playVideo(url) {
             console.log(url);
             ifrm = document.createElement('iframe');
@@ -134,6 +148,7 @@
         function removeVideo() {
             ifrm.remove();
         }
+        
         function getData(result) {
             var firstbit = result.substring(result.indexOf('https://www.youtube.com'));
             youtubeURL = firstbit.substring(0, firstbit.indexOf('"'));
@@ -146,9 +161,11 @@
             durations.push(duration);
             videos.push(youtubeID);
         }
+        
         function dataFromName(query) {
             getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+') + "+topic", query);
         }
+        
         function playdelay(name, time, isnotFirst) {
             if (isnotFirst) {
                 setTimeout(function() {
@@ -163,6 +180,7 @@
                 }, time);
             }
         }
+        
         function playList(videos, durations) {
             var notFirst = false;
             var cumulativedur = 0;
@@ -193,6 +211,7 @@
                 document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
         }
+        
         function getLink(time, videos, durations) {
             hashlist = [];
             for (var i = 0; i < videos.length; i++) {
