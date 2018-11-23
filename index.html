@@ -221,7 +221,7 @@
             for (var i = 0; i < videos.length; i++) {
                 hashlist.push(videos[i]);
                 hashlist.push(durations[i]);
-                hashlist.push(titles[i].split("").join("-"));
+                hashlist.push(titles[i].split(" ").join("-"));
             }
             return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
