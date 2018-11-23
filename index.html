@@ -102,7 +102,7 @@
             location.reload();
         }
         
-        /*--------------------------------------------MAIN CODE---------------------------------------------*/
+        /*--------------------------------------------MAKE CODE---------------------------------------------*/
         
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
@@ -194,7 +194,15 @@
             }
         }
         
-        /*---------------------------------------LINK/TIMER CODE--------------------------------------------*/
+        function listOut() {
+            for(var i = 0; i <= videos.length; i++){
+                songtitle = titles[i];
+                timestamp = 
+                document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timeStamp(durations[i]) + " | " + songtitle + "<br>";
+            }
+        }
+        
+        /*------------------------------------------JOIN CODE----------------------------------------------*/
         
         if (window.location.hash.length > 0) {
             
@@ -211,6 +219,7 @@
                 i++;
                 titles.push(hashlist[i].split("-").join(" "));
             }
+            listOut();
             setTimeout(function() {
                 document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
