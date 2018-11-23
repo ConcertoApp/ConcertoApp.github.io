@@ -209,7 +209,7 @@
                 i++;
                 durations.push(JSON.parse(hashlist[i]));
                 i++;
-                titles.push(hashlist[i]);
+                titles.push(hashlist[i].split("-").join(" "));
             }
             setTimeout(function() {
                 document.getElementById("PlayBtn").click();
@@ -221,7 +221,7 @@
             for (var i = 0; i < videos.length; i++) {
                 hashlist.push(videos[i]);
                 hashlist.push(durations[i]);
-                hashlist.push(titles[i]);
+                hashlist.push(titles[i].split("").join("-"));
             }
             return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
