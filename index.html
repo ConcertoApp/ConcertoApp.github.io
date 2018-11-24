@@ -27,6 +27,8 @@
     </div>
 </div>
     
+    <div id="lyrics"></div>
+    
     <div id="CHROMEKILLER" style="width:1px; height: 1px; overflow: hidden;">
         <div id="iframehere" style="padding-left: 500px;"></div>
     </div>
@@ -49,6 +51,8 @@
         var currentTime;
         var link;
         var hash = window.location.hash.split('&amp;').join('&');
+        var lyricsUrl;
+        var lyrics;
         
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
         
@@ -194,14 +198,6 @@
             }
         }
         
-        function listOut() {
-            for(var i = 0; i < videos.length; i++){
-                songtitle = titles[i];
-                timestamp = 
-                document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timeStamp(durations[i]) + " | " + songtitle + "<br>";
-            }
-        }
-        
         /*------------------------------------------JOIN CODE----------------------------------------------*/
         
         if (window.location.hash.length > 0) {
@@ -245,6 +241,39 @@
             } else {
                 document.getElementById("countdown").innerHTML = "";
             }
+        }
+        
+        function listOut() {
+            for(var i = 0; i < videos.length; i++){
+                songtitle = titles[i];
+                timestamp = 
+                document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timeStamp(durations[i]) + " | " + songtitle + "<br>";
+            }
+        }
+        
+        function getLyricsFromUrl() {
+            doCORSRequest({
+                method: 'GET',
+                url: myurl,
+                data: ""
+            }, function printResult(result) {
+                var firstLYricsBit = result.substring(result.indexOf(<p id="songLyricsDiv"  class="songLyricsV14 iComment-text"> + 59));
+                lyricsUrl = firstSongBit.substring(0, firstSongBit.indexOf('</div>'));
+                console.log(lyrics);
+            });
+        }
+        
+        function getLyricsSearchResults(myurl) {
+            doCORSRequest({
+                method: 'GET',
+                url: myurl,
+                data: ""
+            }, function printResult(result) {
+                var firstSongBit = result.substring(result.indexOf('<div class="serpresult"> <a href="' + 34));
+                lyricsUrl = firstSongBit.substring(0, firstSongBit.indexOf('/"'));
+                console.log(lyricsUrl);
+                getLyricsFromUrl(lyricsUrl);
+            });
         }
         
     </script>
