@@ -257,7 +257,7 @@
                 url: myurl,
                 data: ""
             }, function printResult(result) {
-                var firstLYricsBit = result.substring(result.indexOf(<p id="songLyricsDiv"  class="songLyricsV14 iComment-text"> + 59));
+                var firstLYricsBit = result.substring(result.indexOf('<p id="songLyricsDiv"  class="songLyricsV14 iComment-text"'> + 59));
                 lyricsUrl = firstSongBit.substring(0, firstSongBit.indexOf('</div>'));
                 console.log(lyrics);
             });
