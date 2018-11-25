@@ -8,7 +8,7 @@
 
 <body>
 
-    <div id="Concerto"></div>
+    <div id="ProgBar" style="width: 0%; height: 10px; background-color: black;"></div><br>
 
     <div id="countdown"></div><br>
 
@@ -55,9 +55,25 @@
         var hash = window.location.hash.split('&amp;').join('&');
         var lyricsUrl;
         var lyrics;
-
+        var currentDuration;
+        
+        /*----------------------------------------------UI CODE-----------------------------------------------*/
+        
+        function updateProgBar(duration, maxduration) {
+            document.getElementById("ProgBar").style.width = (duration / maxduration) * 100 + "%";
+        }
+        function playProgBar(duration) {
+            currentDuration = 0;
+            for(var i = 0; i < duration * 20; i++){
+                setTimeout(function() {
+                    currentDuration += .05;
+                    updateProgBar(currentDuration, duration);
+                }, i * 50);
+            }
+        }
+        
         /*---------------------------------------------CORS CODE-----------------------------------------------*/
-
+        
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
             x.open(options.method, cors_api_url + options.url);
@@ -73,7 +89,6 @@
             }
             x.send(options.data);
         }
-
         function getDataOnly(myurl, songtitle) {
             doCORSRequest({
                 method: 'GET',
@@ -91,7 +106,6 @@
                 document.getElementById("linkBtn").style = "visibility: visible";
             });
         }
-
         function getLyricsFromUrl(myurl) {
             doCORSRequest({
                 method: 'GET',
@@ -105,7 +119,6 @@
                 console.log(lyrics);
             });
         }
-
         function getLyricsSearchResults(myurl) {
             doCORSRequest({
                 method: 'GET',
@@ -118,9 +131,9 @@
                 getLyricsFromUrl(lyricsUrl);
             });
         }
-
+        
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
-
+        
         var input = document.getElementById("Input");
         input.addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -128,7 +141,6 @@
                 document.getElementById("Btn").click();
             }
         });
-
         var input2 = document.getElementById("Seconds");
         input2.addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -136,7 +148,6 @@
                 document.getElementById("linkBtn").click();
             }
         });
-
         function buttonpress() {
             if (!loading) {
                 loading = true;
@@ -148,7 +159,6 @@
                 document.getElementById("Input").value = "";
             }
         }
-
         function buttonpress2() {
             if (!playing && !loading) {
                 document.getElementById("PlayBtn").style = "visibility: hidden";
@@ -156,7 +166,6 @@
                 playList(videos, durations, titles);
             }
         }
-
         function buttonpress3() {
             if (!loading && added) {
                 link = document.createElement('a');
@@ -165,30 +174,13 @@
                 document.getElementById("linkspot").appendChild(link);
             }
         }
-
         function linkcode() {
             window.location = link.innerHTML;
             location.reload();
         }
-
+        
         /*--------------------------------------------MAKE CODE---------------------------------------------*/
-
-
-        function playVideo(url, friendlyname) {
-            console.log(url);
-            console.log(friendlyname);
-            ifrm = document.createElement('iframe');
-            ifrm.setAttribute('id', 'ifrm');
-            document.getElementById("iframehere").appendChild(ifrm);
-            ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560&enablejsapi=1');
-            ifrm.setAttribute('allow', "autoplay");
-            LyricsFromName(friendlyname);
-        }
-
-        function removeVideo() {
-            ifrm.remove();
-        }
-
+        
         function getData(result) {
             var firstbit = result.substring(result.indexOf('https://www.youtube.com'));
             youtubeURL = firstbit.substring(0, firstbit.indexOf('"'));
@@ -201,18 +193,21 @@
             durations.push(duration);
             videos.push(youtubeID);
         }
-
         function dataFromName(query) {
-            getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+') + "+topic", query);
+            getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+'), query);
         }
-
-        function playdelay(name, time, isnotFirst, friendlyname) {
+        
+        
+        /*------------------------------------------PLAY CODE----------------------------------------------*/
+        
+        function playdelay(name, time, isnotFirst, friendlyname, length) {
             console.log(friendlyname);
             if (isnotFirst) {
                 setTimeout(function() {
                     removeVideo();
                     console.log("hey");
                     playVideo(name, friendlyname);
+                    playProgBar(time);
                 }, time);
             } else {
                 setTimeout(function() {
@@ -221,25 +216,37 @@
                 }, time);
             }
         }
-
         function playList(videos, durations) {
             var notFirst = false;
             var cumulativedur = 0;
             for (i = 0; i < videos.length; i++) {
-                playdelay(videos[i], cumulativedur, notFirst, titles[i]);
+                playdelay(videos[i], cumulativedur, notFirst, titles[i], durations[i]);
                 cumulativedur = cumulativedur + ((durations[i] + 6) * 1000);
                 console.log(i + " | " + cumulativedur + " | " + durations[i]);
                 notFirst = true;
             }
         }
-
+        function playVideo(url, friendlyname, length) {
+            console.log(url);
+            console.log(friendlyname);
+            ifrm = document.createElement('iframe');
+            ifrm.setAttribute('id', 'ifrm');
+            document.getElementById("iframehere").appendChild(ifrm);
+            ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560');
+            ifrm.setAttribute('allow', "autoplay");
+            LyricsFromName(friendlyname);
+            playProgBar(length);
+        }
+        function removeVideo() {
+            ifrm.remove();
+        }
+        
+        
         /*------------------------------------------JOIN CODE----------------------------------------------*/
-
+        
         if (window.location.hash.length > 0) {
-
             document.getElementById("topcommands").style = "visibility: hidden";
             setInterval(onTimerTick, 33);
-
             startTime = hash.substring(1, hash.indexOf("&"));
             currentTime = Date.now();
             hashlist = (hash.substring(hash.indexOf("&") + 1)).split(",");
@@ -255,7 +262,6 @@
                 document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
         }
-
         function getLink(time, videos, durations) {
             hashlist = [];
             for (var i = 0; i < videos.length; i++) {
@@ -265,11 +271,9 @@
             }
             return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
-
         function timeStamp(seconds) {
             return Math.floor(seconds / 60) + ":" + ('0' + (seconds % 60)).slice(-2);
         }
-
         function onTimerTick() {
             if (Math.floor((startTime - Date.now()) / 1000) > 0) {
                 document.getElementById("countdown").innerHTML = timeStamp(Math.floor((startTime - Date.now()) / 1000));
@@ -277,7 +281,6 @@
                 document.getElementById("countdown").innerHTML = "";
             }
         }
-
         function listOut() {
             for (var i = 0; i < videos.length; i++) {
                 songtitle = titles[i];
@@ -285,7 +288,6 @@
                     document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timeStamp(durations[i]) + " | " + songtitle + "<br>";
             }
         }
-
         function LyricsFromName(name) {
             getLyricsSearchResults('http://www.songlyrics.com/index.php?section=search&searchW=' + name.split(' ').join('+') + '&submit=Search');
         }
