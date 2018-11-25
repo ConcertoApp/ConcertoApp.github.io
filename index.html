@@ -8,6 +8,8 @@
 
 <body>
     
+    <div id="Concerto"></div>
+    
     <div id="countdown"></div><br>
     
 <div id="commands">
@@ -54,7 +56,68 @@
         var lyricsUrl;
         var lyrics;
         
-        var DELETEME;
+        /*---------------------------------------------CORS CODE-----------------------------------------------*/
+        
+        function doCORSRequest(options, printResult) {
+            var x = new XMLHttpRequest();
+            x.open(options.method, cors_api_url + options.url);
+            x.onload = x.onerror = function() {
+                printResult(
+                    options.method + ' ' + options.url + '\n' +
+                    x.status + ' ' + x.statusText + '\n\n' +
+                    (x.responseText || '')
+                );
+            };
+            if (/^POST/i.test(options.method)) {
+                x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            }
+            x.send(options.data);
+        }
+        
+        function getDataOnly(myurl, songtitle) {
+            doCORSRequest({
+                method: 'GET',
+                url: myurl,
+                data: ""
+            }, function printResult(result) {
+                getData(result);
+                document.getElementById("Btn").style = "visibility: visible";
+                document.getElementById("PlayBtn").style = "visibility: visible";
+                document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
+                titles.push(songtitle);
+                loading = false;
+                added = true;
+                document.getElementById("bottomcommands").style = "visibility: visible";
+                document.getElementById("linkBtn").style = "visibility: visible";
+            });
+        }
+        
+        function getLyricsFromUrl(myurl) {
+            doCORSRequest({
+                method: 'GET',
+                url: myurl,
+                data: ""
+            }, function printResult(result) {
+                console.log("Geting lyrics.");
+                var firstLyricsBit = result.substring(result.indexOf('<p id="songLyricsDiv"  class="songLyricsV14 iComment-text">') + 59);
+                lyrics = firstLyricsBit.substring(0, firstLyricsBit.indexOf('</div>'));
+                document.getElementById("lyrics").innerHTML = lyrics;
+                console.log(lyrics);
+            });
+        }
+        
+        function getLyricsSearchResults(myurl) {
+            doCORSRequest({
+                method: 'GET',
+                url: myurl,
+                data: ""
+            }, function printResult(result) {
+                console.log("Searching.");
+                var firstSongBit = result.substring(result.indexOf('<div class="serpresult">') + 42);
+                lyricsUrl = firstSongBit.substring(0, firstSongBit.indexOf('/"'));
+                getLyricsFromUrl(lyricsUrl);
+            });
+        }
         
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
         
@@ -110,39 +173,7 @@
         
         /*--------------------------------------------MAKE CODE---------------------------------------------*/
         
-        function doCORSRequest(options, printResult) {
-            var x = new XMLHttpRequest();
-            x.open(options.method, cors_api_url + options.url);
-            x.onload = x.onerror = function() {
-                printResult(
-                    options.method + ' ' + options.url + '\n' +
-                    x.status + ' ' + x.statusText + '\n\n' +
-                    (x.responseText || '')
-                );
-            };
-            if (/^POST/i.test(options.method)) {
-                x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            }
-            x.send(options.data);
-        }
-        
-        function getDataOnly(myurl, songtitle) {
-            doCORSRequest({
-                method: 'GET',
-                url: myurl,
-                data: ""
-            }, function printResult(result) {
-                getData(result);
-                document.getElementById("Btn").style = "visibility: visible";
-                document.getElementById("PlayBtn").style = "visibility: visible";
-                document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
-                titles.push(songtitle);
-                loading = false;
-                added = true;
-                document.getElementById("bottomcommands").style = "visibility: visible";
-                document.getElementById("linkBtn").style = "visibility: visible";
-            });
-        }
+
         
         function playVideo(url, friendlyname) {
             console.log(url);
@@ -150,7 +181,7 @@
             ifrm = document.createElement('iframe');
             ifrm.setAttribute('id', 'ifrm');
             document.getElementById("iframehere").appendChild(ifrm);
-            ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560');
+            ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560&enablejsapi=1');
             ifrm.setAttribute('allow', "autoplay");
             LyricsFromName(friendlyname);
         }
@@ -172,7 +203,7 @@
         }
         
         function dataFromName(query) {
-            getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+'), query);
+            getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+') + "+topic", query);
         }
         
         function playdelay(name, time, isnotFirst, friendlyname) {
@@ -257,33 +288,6 @@
         
         function LyricsFromName(name) {
             getLyricsSearchResults('http://www.songlyrics.com/index.php?section=search&searchW=' + name.split(' ').join('+') + '&submit=Search');
-        }
-        
-        function getLyricsFromUrl(myurl) {
-            doCORSRequest({
-                method: 'GET',
-                url: myurl,
-                data: ""
-            }, function printResult(result) {
-                console.log("Geting lyrics.");
-                var firstLyricsBit = result.substring(result.indexOf('<p id="songLyricsDiv"  class="songLyricsV14 iComment-text">') + 59);
-                lyrics = firstLyricsBit.substring(0, firstLyricsBit.indexOf('</div>'));
-                document.getElementById("lyrics").innerHTML = lyrics;
-                console.log(lyrics);
-            });
-        }
-        
-        function getLyricsSearchResults(myurl) {
-            doCORSRequest({
-                method: 'GET',
-                url: myurl,
-                data: ""
-            }, function printResult(result) {
-                console.log("Searching.");
-                var firstSongBit = result.substring(result.indexOf('<div class="serpresult">') + 42);
-                lyricsUrl = firstSongBit.substring(0, firstSongBit.indexOf('/"'));
-                getLyricsFromUrl(lyricsUrl);
-            });
         }
         
     </script>
