@@ -172,7 +172,7 @@
         }
         
         function dataFromName(query) {
-            getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+') + "+topic", query);
+            getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+'), query);
         }
         
         function playdelay(name, time, isnotFirst, friendlyname) {
