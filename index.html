@@ -112,11 +112,9 @@
                 url: myurl,
                 data: ""
             }, function printResult(result) {
-                console.log("Geting lyrics.");
                 var firstLyricsBit = result.substring(result.indexOf('<p id="songLyricsDiv"  class="songLyricsV14 iComment-text">') + 59);
                 lyrics = firstLyricsBit.substring(0, firstLyricsBit.indexOf('</div>'));
                 document.getElementById("lyrics").innerHTML = lyrics;
-                console.log(lyrics);
             });
         }
         function getLyricsSearchResults(myurl) {
@@ -125,7 +123,6 @@
                 url: myurl,
                 data: ""
             }, function printResult(result) {
-                console.log("Searching.");
                 var firstSongBit = result.substring(result.indexOf('<div class="serpresult">') + 42);
                 lyricsUrl = firstSongBit.substring(0, firstSongBit.indexOf('/"'));
                 getLyricsFromUrl(lyricsUrl);
@@ -154,7 +151,7 @@
                 document.getElementById("linkBtn").style = "visibility: hidden";
                 document.getElementById("Btn").style = "visibility: hidden";
                 document.getElementById("PlayBtn").style = "visibility: hidden";
-                console.log("pressed");
+
                 dataFromName(document.getElementById("Input").value);
                 document.getElementById("Input").value = "";
             }
@@ -201,18 +198,15 @@
         /*------------------------------------------PLAY CODE----------------------------------------------*/
         
         function playdelay(name, time, isnotFirst, friendlyname, length) {
-            console.log(friendlyname);
             if (isnotFirst) {
                 setTimeout(function() {
                     removeVideo();
-                    console.log("hey");
-                    playVideo(name, friendlyname);
+                    playVideo(name, friendlyname, length);
                     playProgBar(time);
                 }, time);
             } else {
                 setTimeout(function() {
-                    console.log("hey");
-                    playVideo(name, friendlyname);
+                    playVideo(name, friendlyname, length);
                 }, time);
             }
         }
@@ -222,13 +216,10 @@
             for (i = 0; i < videos.length; i++) {
                 playdelay(videos[i], cumulativedur, notFirst, titles[i], durations[i]);
                 cumulativedur = cumulativedur + ((durations[i] + 6) * 1000);
-                console.log(i + " | " + cumulativedur + " | " + durations[i]);
                 notFirst = true;
             }
         }
         function playVideo(url, friendlyname, length) {
-            console.log(url);
-            console.log(friendlyname);
             ifrm = document.createElement('iframe');
             ifrm.setAttribute('id', 'ifrm');
             document.getElementById("iframehere").appendChild(ifrm);
