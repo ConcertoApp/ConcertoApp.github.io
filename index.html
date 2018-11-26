@@ -12,7 +12,7 @@
 
     <div id="countdown"></div><br>
 
-    <div id="commands">
+    <div id="commands" style="margin-left: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
         <div id="topcommands">
             <input id="Input" value="">
             <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
@@ -29,9 +29,11 @@
         </div>
     </div>
 
-    <div id="lyrics"></div>
+    <div id="head" style="margin-left: 6.25%; margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow:hidden;"></div>
 
-    <div id="CHROMEKILLER" style="width:1px; height: 1px; overflow: hidden;">
+    <div id="lyrics" style="margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;"></div>
+
+    <div id="CHROMEKILLER" style="position:absolute; width:1px; height: 1px; overflow: hidden;">
         <div id="iframehere" style="padding-left: 500px;"></div>
     </div>
 
@@ -56,24 +58,36 @@
         var lyricsUrl;
         var lyrics;
         var currentDuration;
-        
-        /*----------------------------------------------UI CODE-----------------------------------------------*/
-        
+
+        /*--------------------------------------------RESIZE CODE-----------------------------------------------*/
+
+        setInterval(resizeStuff, 100);
+
+        function resizeStuff() {
+            console.log("Resized!");
+            document.getElementById("commands").style.height = (window.innerHeight * .66) + "px";
+            document.getElementById("head").style.height = (window.innerHeight * .66) + "px";
+            document.getElementById("lyrics").style.height = (window.innerHeight * .66) + "px";
+        }
+
+        /*----------------------------------------------UI CODE-------------------------------------------------*/
+
         function updateProgBar(duration, maxduration) {
             document.getElementById("ProgBar").style.width = (duration / maxduration) * 100 + "%";
         }
+
         function playProgBar(duration) {
             currentDuration = 0;
-            for(var i = 0; i < duration * 20; i++){
+            for (var i = 0; i < duration * 20; i++) {
                 setTimeout(function() {
                     currentDuration += .05;
                     updateProgBar(currentDuration, duration);
                 }, i * 50);
             }
         }
-        
+
         /*---------------------------------------------CORS CODE-----------------------------------------------*/
-        
+
         function doCORSRequest(options, printResult) {
             var x = new XMLHttpRequest();
             x.open(options.method, cors_api_url + options.url);
@@ -89,6 +103,7 @@
             }
             x.send(options.data);
         }
+
         function getDataOnly(myurl, songtitle) {
             doCORSRequest({
                 method: 'GET',
@@ -106,6 +121,7 @@
                 document.getElementById("linkBtn").style = "visibility: visible";
             });
         }
+
         function getLyricsFromUrl(myurl) {
             doCORSRequest({
                 method: 'GET',
@@ -117,6 +133,7 @@
                 document.getElementById("lyrics").innerHTML = lyrics;
             });
         }
+
         function getLyricsSearchResults(myurl) {
             doCORSRequest({
                 method: 'GET',
@@ -128,9 +145,9 @@
                 getLyricsFromUrl(lyricsUrl);
             });
         }
-        
+
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
-        
+
         var input = document.getElementById("Input");
         input.addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -145,6 +162,7 @@
                 document.getElementById("linkBtn").click();
             }
         });
+
         function buttonpress() {
             if (!loading) {
                 loading = true;
@@ -156,6 +174,7 @@
                 document.getElementById("Input").value = "";
             }
         }
+
         function buttonpress2() {
             if (!playing && !loading) {
                 document.getElementById("PlayBtn").style = "visibility: hidden";
@@ -163,6 +182,7 @@
                 playList(videos, durations, titles);
             }
         }
+
         function buttonpress3() {
             if (!loading && added) {
                 link = document.createElement('a');
@@ -171,13 +191,14 @@
                 document.getElementById("linkspot").appendChild(link);
             }
         }
+
         function linkcode() {
             window.location = link.innerHTML;
             location.reload();
         }
-        
+
         /*--------------------------------------------MAKE CODE---------------------------------------------*/
-        
+
         function getData(result) {
             var firstbit = result.substring(result.indexOf('https://www.youtube.com'));
             youtubeURL = firstbit.substring(0, firstbit.indexOf('"'));
@@ -190,13 +211,14 @@
             durations.push(duration);
             videos.push(youtubeID);
         }
+
         function dataFromName(query) {
             getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+'), query);
         }
-        
-        
+
+
         /*------------------------------------------PLAY CODE----------------------------------------------*/
-        
+
         function playdelay(name, time, isnotFirst, friendlyname, length) {
             if (isnotFirst) {
                 setTimeout(function() {
@@ -210,6 +232,7 @@
                 }, time);
             }
         }
+
         function playList(videos, durations) {
             var notFirst = false;
             var cumulativedur = 0;
@@ -219,6 +242,7 @@
                 notFirst = true;
             }
         }
+
         function playVideo(url, friendlyname, length) {
             ifrm = document.createElement('iframe');
             ifrm.setAttribute('id', 'ifrm');
@@ -228,13 +252,14 @@
             LyricsFromName(friendlyname);
             playProgBar(length);
         }
+
         function removeVideo() {
             ifrm.remove();
         }
-        
-        
+
+
         /*------------------------------------------JOIN CODE----------------------------------------------*/
-        
+
         if (window.location.hash.length > 0) {
             document.getElementById("topcommands").style = "visibility: hidden";
             setInterval(onTimerTick, 33);
@@ -253,6 +278,7 @@
                 document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
         }
+
         function getLink(time, videos, durations) {
             hashlist = [];
             for (var i = 0; i < videos.length; i++) {
@@ -262,9 +288,11 @@
             }
             return window.location.origin + "/#" + time + "&" + hashlist.toString();
         }
+
         function timeStamp(seconds) {
             return Math.floor(seconds / 60) + ":" + ('0' + (seconds % 60)).slice(-2);
         }
+
         function onTimerTick() {
             if (Math.floor((startTime - Date.now()) / 1000) > 0) {
                 document.getElementById("countdown").innerHTML = timeStamp(Math.floor((startTime - Date.now()) / 1000));
@@ -272,6 +300,7 @@
                 document.getElementById("countdown").innerHTML = "";
             }
         }
+
         function listOut() {
             for (var i = 0; i < videos.length; i++) {
                 songtitle = titles[i];
@@ -279,6 +308,7 @@
                     document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timeStamp(durations[i]) + " | " + songtitle + "<br>";
             }
         }
+
         function LyricsFromName(name) {
             getLyricsSearchResults('http://www.songlyrics.com/index.php?section=search&searchW=' + name.split(' ').join('+') + '&submit=Search');
         }
