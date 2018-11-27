@@ -6,46 +6,49 @@
     <title>Concerto</title>
 </head>
 
-<body style="margin: 0">
+<body style="margin: 0; color: white;">
 
-<div id="ConcertoApp" style='background-image: linear-gradient(#27b0ff, #7612ff);'>
-    
-    <div id="ProgBar" style="width: 0%; height: 10px; background-color: black;"></div><br>
+    <div id="ConcertoApp" style='background-image: linear-gradient(#27b0ff, #7612ff);'>
 
-    <div id="countdown"></div><br>
-
-    <div id="commands" style="margin-left: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
-        <div id="commandscontent">
-        <div id="topcommands">
-            <input id="Input" value="">
-            <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
-            <button id="PlayBtn" onclick="javascript:buttonpress2()" style="visibility: hidden;">Play</button>
+        <div id="overlay" style="position: absolute;">
+            <div id="ProgBar" style="width: 0%; height: 10px; background-color: black;"></div><br>
+            <div id="countdown"></div><br>
         </div>
 
-        <br>
-        <div id="Tracklist"></div>
-        <br>
+        <div id="content" style="position: absolute; width: 100%;">
+            <div id="commands" style="outline: 3px solid white;margin-left: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
+                <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+                    <div id="topcommands">
+                        <input id="Input" value="">
+                        <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
+                        <button id="PlayBtn" onclick="javascript:buttonpress2()" style="visibility: hidden;">Test</button>
+                    </div>
 
-        <div id="bottomcommands" style="visibility : hidden">
-            Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button>
-            <div id="linkspot"></div><br>
+                    <br>
+                    <div id="Tracklist"></div>
+                    <br>
+
+                    <div id="bottomcommands" style="visibility : hidden">
+                        Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button>
+                        <div id="linkspot"></div><br>
+                    </div>
+                </div>
+            </div>
+
+            <div id="head" style="margin-left: 6.25%; margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow:hidden;">
+                <img id="logo" src=logo.png style="margin-left: auto; margin-right: auto;">
+            </div>
+
+            <div id="lyricscontainer" style="outline: 3px solid white; margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
+                <div id="lyrics" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
+            </div>
         </div>
+
+        <div id="CHROMEKILLER" style="position:absolute; width:1px; height: 1px; overflow: hidden;">
+            <div id="iframehere" style="padding-left: 500px;"></div>
         </div>
-    </div>
 
-    <div id="head" style="margin-left: 6.25%; margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow:hidden;">
-        <img id="logo" src=logo.png style="margin-left: auto; margin-right: auto;">
     </div>
-
-    <div id="lyricscontainer" style="margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
-    <div id="lyrics"></div>
-    </div>
-
-    <div id="CHROMEKILLER" style="position:absolute; width:1px; height: 1px; overflow: hidden;">
-        <div id="iframehere" style="padding-left: 500px;"></div>
-    </div>
-    
-</div>
 
     <script>
         var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
@@ -89,16 +92,17 @@
             document.getElementById("logo").style.marginLeft = ((document.getElementById("head").clientWidth - document.getElementById("logo").clientWidth) / 2) + "px";
             document.getElementById("logo").style.marginRight = ((document.getElementById("head").clientWidth - document.getElementById("logo").clientWidth) / 2) + "px";
             
-            if(document.getElementById("commandscontent").clientHeight > (window.innerHeight * .66)){
+            if(document.getElementById("commandscontent").clientHeight + 6 > (window.innerHeight * .66)){
                 document.getElementById("commands").style.overflowY = "scroll";
             } else {
                 document.getElementById("commands").style.overflowY = "hidden";
             }
-            if(document.getElementById("lyrics").clientHeight > (window.innerHeight * .66)){
+            if(document.getElementById("lyrics").clientHeight + 6> (window.innerHeight * .66)){
                 document.getElementById("lyricscontainer").style.overflowY = "scroll";
             } else {
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
+            content.style.marginTop = Math.round(((document.getElementById("ConcertoApp").clientHeight - document.getElementById("content").clientHeight) / 2)) + "px";
         }
         /*----------------------------------------------UI CODE-------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
