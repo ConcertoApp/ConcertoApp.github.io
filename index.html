@@ -216,6 +216,7 @@
                 link = document.createElement('a');
                 link.innerHTML = getLink((Math.floor(Date.now() / 1000) + JSON.parse(document.getElementById("Seconds").value)) * 1000, videos, durations);
                 link.href = 'javascript:linkcode()';
+                link.style = "color: white;";
                 document.getElementById("linkspot").appendChild(link);
             }
         }
