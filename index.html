@@ -22,13 +22,13 @@
                         <input id="Input" value="">
                         <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
                         <button id="PlayBtn" onclick="javascript:buttonpress2()" style="visibility: hidden;">Test</button>
-                        <br>
                     </div>
 
+                    <br>
                     <div id="Tracklist"></div>
+                    <br>
 
                     <div id="bottomcommands" style="visibility : hidden">
-                        <br>
                         Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button>
                         <div id="linkspot"></div><br>
                     </div>
@@ -103,6 +103,9 @@
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
             document.getElementById("content").style.marginTop = Math.round((((document.getElementById("ConcertoApp").clientHeight - document.getElementById("overlay").clientHeight) - document.getElementById("content").clientHeight) / 2)) + "px";
+            if(document.getElementById("commands").clientHeight > document.getElementById("commandscontent").clientHeight){
+                document.getElementById("commandscontent").style.marginTop = (document.getElementById("commands").clientHeight - document.getElementById("commandscontent").clientHeight) / 2 + "px";
+            }
         }
         /*----------------------------------------------UI CODE-------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
