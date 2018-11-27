@@ -102,7 +102,7 @@
             } else {
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
-            content.style.marginTop = Math.round(((document.getElementById("ConcertoApp").clientHeight - document.getElementById("content").clientHeight) / 2)) + "px";
+            document.getElementById("content").style.marginTop = Math.round(((document.getElementById("ConcertoApp").clientHeight - document.getElementById("content").clientHeight) / 2)) + "px";
         }
         /*----------------------------------------------UI CODE-------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
