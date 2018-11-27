@@ -273,7 +273,6 @@
         }
         /*------------------------------------------JOIN CODE----------------------------------------------*/
         if (window.location.hash.length > 0) {
-            deleteCommands();
             document.getElementById("topcommands").style = "visibility: hidden";
             setInterval(onTimerTick, 33);
             startTime = hash.substring(1, hash.indexOf("&"));
@@ -290,6 +289,7 @@
             setTimeout(function() {
                 document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
+            deleteCommands();
         }
         function getLink(time, videos, durations) {
             hashlist = [];
