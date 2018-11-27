@@ -112,6 +112,7 @@
             document.getElementById("ProgBar").style.width = (duration / maxduration) * 100 + "%";
         }
         function playProgBar(duration) {
+            document.getElementById("ProgBar").style.width = "0%";
             currentDuration = 0;
             for (var i = 0; i < duration * 20; i++) {
                 setTimeout(function() {
