@@ -10,8 +10,8 @@
 
     <div id="ConcertoApp" style='background-image: linear-gradient(#27b0ff, #7612ff);'>
 
-        <div id="overlay" style="position: absolute;">
-            <div id="ProgBar" style="width: 0%; height: 10px; background-color: black;"></div><br>
+        <div id="overlay">
+            <div id="ProgBar" style="width: 0%; height: 10px; background-color: white;"></div><br>
             <div id="countdown"></div><br>
         </div>
 
@@ -102,7 +102,7 @@
             } else {
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
-            document.getElementById("content").style.marginTop = Math.round(((document.getElementById("ConcertoApp").clientHeight - document.getElementById("content").clientHeight) / 2)) + "px";
+            document.getElementById("content").style.marginTop = Math.round((((document.getElementById("ConcertoApp").clientHeight - document.getElementById("overlay").clientHeight) - document.getElementById("content").clientHeight) / 2)) + "px";
         }
         /*----------------------------------------------UI CODE-------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
