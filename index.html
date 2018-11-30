@@ -12,11 +12,11 @@
 
         <div id="overlay">
             <div id="ProgBar" style="width: 0%; height: 10px; background-color: white;"></div><br>
-            <div id="countdown" style="text-align: center"></div><br>
+            <div id="countdown"></div><br>
         </div>
 
         <div id="content" style="position: absolute; width: 100%;">
-            <div id="commands" style="margin-left: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="commands" style="outline: 3px solid white;margin-left: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
                 <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
                     <div id="topcommands">
                         <input id="Input" value="">
@@ -39,7 +39,7 @@
                 <img id="logo" src=logo.png style="margin-left: auto; margin-right: auto;">
             </div>
 
-            <div id="lyricscontainer" style="margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="lyricscontainer" style="outline: 3px solid white; margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
                 <div id="lyrics" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
             </div>
         </div>
@@ -103,9 +103,6 @@
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
             document.getElementById("content").style.marginTop = Math.round((((document.getElementById("ConcertoApp").clientHeight - document.getElementById("overlay").clientHeight) - document.getElementById("content").clientHeight) / 2)) + "px";
-            if(document.getElementById("commands").clientHeight > document.getElementById("commandscontent").clientHeight){
-                document.getElementById("commandscontent").style.marginTop = (document.getElementById("commands").clientHeight - document.getElementById("commandscontent").clientHeight) / 2 + "px";
-            }
         }
         /*----------------------------------------------UI CODE-------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
@@ -119,10 +116,6 @@
                     updateProgBar(currentDuration, duration);
                 }, i * 50);
             }
-        }
-        function deleteCommands () { //If it works it works, but please don't EVER write code like this.
-            document.getElementById("topcommands").remove();
-            document.getElementById("bottomcommands").remove();
         }
         /*---------------------------------------------CORS CODE-----------------------------------------------*/
         function doCORSRequest(options, printResult) {
@@ -216,7 +209,6 @@
                 link = document.createElement('a');
                 link.innerHTML = getLink((Math.floor(Date.now() / 1000) + JSON.parse(document.getElementById("Seconds").value)) * 1000, videos, durations);
                 link.href = 'javascript:linkcode()';
-                link.style = "color: white;";
                 document.getElementById("linkspot").appendChild(link);
             }
         }
@@ -291,9 +283,8 @@
             }
             listOut();
             setTimeout(function() {
-                playList(videos, durations, titles);
+                document.getElementById("PlayBtn").click();
             }, startTime - currentTime);
-            deleteCommands();
         }
         function getLink(time, videos, durations) {
             hashlist = [];
