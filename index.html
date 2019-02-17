@@ -5,9 +5,41 @@
     <meta charset="UTF-8">
     <title>Concerto</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
+    
+    <style>
+        body{
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            font-variant-numeric: tabular-nums;
+            margin: 0;
+            color: #ff2024;
+        }
+        .EdgyButton{
+            margin-top: 4px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            background-color: #ff2024;
+            border: 3px solid #ff2024;
+        }
+        .EdgyButtonHidden{
+            margin-top: 4px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            background-color: #ff2024;
+            border: 3px solid #ff2024;
+            visibility: hidden;
+        }
+        .EdgyInput{
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px; color: #ff2024;
+            background-color: black;
+            border: 3px solid #ff2024;
+        }
+    </style>
+    
 </head>
 
-<body style="font-family: 'Roboto', sans-serif; font-size: 18px; font-variant-numeric: tabular-nums; margin: 0; color: #ff2024;" onload="resizeStuff()"; onresize="resizeStuff()">
+<body onload="resizeStuff()"; onresize="resizeStuff()">
 
     <div id="ConcertoApp" style='overflow: hidden; background-color: black;'>
 
@@ -21,9 +53,9 @@
             <div id="commands" style="margin-left: 6.25%; float:left; width: 40%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
                 <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
                     <div id="topcommands">
-                        <input id="Input" value="" style="font-family: 'Roboto', sans-serif; font-size: 18px; color: #ff2024; background-color: black; border: 3px solid #ff2024;">
-                        <button id="Btn" onclick="javascript:buttonpress()" style="margin-top: 4px; font-family: 'Roboto', sans-serif; font-size: 18px; background-color: #ff2024; border: 3px solid #ff2024;">Add Song</button>
-                        <button id="PlayBtn" onclick="javascript:buttonpress2()" style="margin-top: 4px; font-family: 'Roboto', sans-serif; font-size: 18px; visibility: hidden; background-color: #ff2024; border: 3px solid #ff2024;">Test</button>
+                        <input id="Input" value="" class="EdgyInput">
+                        <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
+                        <button id="PlayBtn" onclick="javascript:buttonpress2()" class="EdgyButtonHidden">Test</button>
                     </div>
 
                     <br>
@@ -31,8 +63,8 @@
                     <br>
 
                     <div id="bottomcommands" style="visibility : hidden">
-                        Seconds until start: <input style="font-family: 'Roboto', sans-serif; font-size: 18px; color: #ff2024; background-color: black; border: 3px solid #ff2024;" id="Seconds">
-                        <button id="linkBtn" onclick="javascript:buttonpress3()" style="margin-top: 4px; font-family: 'Roboto', sans-serif; font-size: 18px; background-color: #ff2024; border: 3px solid #ff2024;">Get Link</button>
+                        Seconds until start: <input class="EdgyInput" id="Seconds">
+                        <button id="linkBtn" onclick="javascript:buttonpress3()" class="EdgyButton">Get Link</button>
                         <div id="linkspot"></div><br>
                     </div>
                 </div>
