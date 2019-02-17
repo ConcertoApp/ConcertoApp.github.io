@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+<head style="background-color: black">
     <meta charset="UTF-8">
     <title>Concerto</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
 </head>
 
-<body style="margin: 0; color: white;" onload="resizeStuff()"; onresize="resizeStuff()">
+<body style="font-family: 'Roboto', sans-serif; font-size: 18px; font-variant-numeric: tabular-nums; margin: 0; color: #ff2024;" onload="resizeStuff()"; onresize="resizeStuff()">
 
-    <div id="ConcertoApp" style='overflow: hidden; background-image: linear-gradient(#27b0ff, #7612ff);'>
+    <div id="ConcertoApp" style='overflow: hidden; background-color: black;'>
 
         <div id="overlay">
-            <div id="ProgBar" style="width: 0%; height: 10px; background-color: white;"></div><br>
+            <img src="concertomonogram.png" style="width:70%; margin-left: 15%; margin-top: 1%;">
+            <div id="ProgBar" style="width: 0%; height: 10px; background-color: #ff2024;"></div><br>
             <div id="countdown"></div><br>
         </div>
 
         <div id="content" style="position: absolute; width: 100%;">
-            <div id="commands" style="margin-left: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="commands" style="margin-left: 6.25%; float:left; width: 40%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
                 <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
                     <div id="topcommands">
-                        <input id="Input" value="">
-                        <button id="Btn" onclick="javascript:buttonpress()">Add Song</button>
-                        <button id="PlayBtn" onclick="javascript:buttonpress2()" style="visibility: hidden;">Test</button>
+                        <input id="Input" value="" style="font-family: 'Roboto', sans-serif; font-size: 18px; color: #ff2024; background-color: black; border: 3px solid #ff2024;">
+                        <button id="Btn" onclick="javascript:buttonpress()" style="margin-top: 4px; font-family: 'Roboto', sans-serif; font-size: 18px; background-color: #ff2024; border: 3px solid #ff2024;">Add Song</button>
+                        <button id="PlayBtn" onclick="javascript:buttonpress2()" style="margin-top: 4px; font-family: 'Roboto', sans-serif; font-size: 18px; visibility: hidden; background-color: #ff2024; border: 3px solid #ff2024;">Test</button>
                     </div>
 
                     <br>
@@ -29,17 +31,14 @@
                     <br>
 
                     <div id="bottomcommands" style="visibility : hidden">
-                        Seconds until start: <input id="Seconds"> <button id="linkBtn" onclick="javascript:buttonpress3()">Get Link</button>
+                        Seconds until start: <input style="font-family: 'Roboto', sans-serif; font-size: 18px; color: #ff2024; background-color: black; border: 3px solid #ff2024;" id="Seconds">
+                        <button id="linkBtn" onclick="javascript:buttonpress3()" style="margin-top: 4px; font-family: 'Roboto', sans-serif; font-size: 18px; background-color: #ff2024; border: 3px solid #ff2024;">Get Link</button>
                         <div id="linkspot"></div><br>
                     </div>
                 </div>
             </div>
 
-            <div id="head" style="margin-left: 6.25%; margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow:hidden;">
-                <img id="logo" src=logo.png style="margin-left: auto; margin-right: auto;">
-            </div>
-
-            <div id="lyricscontainer" style="margin-right: 6.25%; float:left; width: 25%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="lyricscontainer" style="margin-right: 6.25%; float:right; width: 40%; height: 66%; overflow-y: scroll; overflow-x: hidden;">
                 <div id="lyrics" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
             </div>
         </div>
@@ -76,21 +75,8 @@
             console.log("Resized!");
             document.getElementById("ConcertoApp").style.height = window.innerHeight + "px";
             document.getElementById("commands").style.height = (window.innerHeight * .66) + "px";
-            document.getElementById("head").style.height = (window.innerHeight * .66) + "px";
             document.getElementById("lyricscontainer").style.height = (window.innerHeight * .66) + "px";
-            if(document.getElementById("head").clientWidth > document.getElementById("head").clientHeight){
-                document.getElementById("logo").style.height = document.getElementById("head").clientHeight + "px";
-                document.getElementById("logo").style.width = document.getElementById("head").clientHeight + "px";
-            } else {
-                document.getElementById("logo").style.height = document.getElementById("head").clientWidth + "px";
-                document.getElementById("logo").style.width = document.getElementById("head").clientWidth + "px";
-            }
-            
-            document.getElementById("logo").style.marginTop = ((document.getElementById("head").clientHeight - document.getElementById("logo").clientHeight) / 2) + "px";
-            document.getElementById("logo").style.marginBottom = ((document.getElementById("head").clientHeight - document.getElementById("logo").clientHeight) / 2) + "px";
-            document.getElementById("logo").style.marginLeft = ((document.getElementById("head").clientWidth - document.getElementById("logo").clientWidth) / 2) + "px";
-            document.getElementById("logo").style.marginRight = ((document.getElementById("head").clientWidth - document.getElementById("logo").clientWidth) / 2) + "px";
-            
+
             if(document.getElementById("commandscontent").clientHeight + 6 > (window.innerHeight * .66)){
                 document.getElementById("commands").style.overflowY = "scroll";
             } else {
@@ -101,7 +87,7 @@
             } else {
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
-            document.getElementById("content").style.marginTop = Math.round((((document.getElementById("ConcertoApp").clientHeight - document.getElementById("overlay").clientHeight) - document.getElementById("content").clientHeight) / 2)) + "px";
+        //    document.getElementById("content").style.marginTop = Math.round((((document.getElementById("ConcertoApp").clientHeight - document.getElementById("overlay").clientHeight) - document.getElementById("content").clientHeight) / 2)) + "px";
         }
         /*----------------------------------------------UI CODE-------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
@@ -140,14 +126,14 @@
                 data: ""
             }, function printResult(result) {
                 getData(result);
-                document.getElementById("Btn").style = "visibility: visible";
-                document.getElementById("PlayBtn").style = "visibility: visible";
+                document.getElementById("Btn").style.visibility = "visible";
+                document.getElementById("PlayBtn").style.visibility = "visible";
                 document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
                 titles.push(songtitle);
                 loading = false;
                 added = true;
-                document.getElementById("bottomcommands").style = "visibility: visible";
-                document.getElementById("linkBtn").style = "visibility: visible";
+                document.getElementById("bottomcommands").style.visibility = "visible";
+                document.getElementById("linkBtn").style.visibility = "visible";
             });
         }
         function getLyricsFromUrl(myurl) {
@@ -190,16 +176,16 @@
         function buttonpress() {
             if (!loading) {
                 loading = true;
-                document.getElementById("linkBtn").style = "visibility: hidden";
-                document.getElementById("Btn").style = "visibility: hidden";
-                document.getElementById("PlayBtn").style = "visibility: hidden";
+                document.getElementById("linkBtn").style.visibility = "hidden";
+                document.getElementById("Btn").style.visibility = "hidden";
+                document.getElementById("PlayBtn").style.visibility = "hidden";
                 dataFromName(document.getElementById("Input").value);
                 document.getElementById("Input").value = "";
             }
         }
         function buttonpress2() {
             if (!playing && !loading) {
-                document.getElementById("PlayBtn").style = "visibility: hidden";
+                document.getElementById("PlayBtn").style.visibility = "hidden";
                 playing = true;
                 playList(videos, durations, titles);
             }
@@ -209,6 +195,7 @@
                 link = document.createElement('a');
                 link.innerHTML = getLink((Math.floor(Date.now() / 1000) + JSON.parse(document.getElementById("Seconds").value)) * 1000, videos, durations);
                 link.href = 'javascript:linkcode()';
+                link.style.color="#ff2024";
                 document.getElementById("linkspot").appendChild(link);
             }
         }
@@ -268,7 +255,7 @@
         }
         /*------------------------------------------JOIN CODE----------------------------------------------*/
         if (window.location.hash.length > 0) {
-            document.getElementById("topcommands").style = "visibility: hidden";
+            document.getElementById("topcommands").style.visibility = "hidden";
             setInterval(onTimerTick, 33);
             startTime = hash.substring(1, hash.indexOf("&"));
             currentTime = Date.now();
