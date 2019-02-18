@@ -50,7 +50,7 @@
         </div>
 
         <div id="content" style="position: absolute; width: 100%;">
-            <div id="commands" style="margin-left: 6.25%; float:left; width: 40%; height: 64%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="commands" style="margin-left: 6.25%; float:left; width: 40%; height: 62%; overflow-y: scroll; overflow-x: hidden;">
                 <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
                     <div id="topcommands">
                         <input id="Input" value="" class="EdgyInput">
@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div id="lyricscontainer" style="margin-right: 6.25%; float:right; width: 40%; height: 64%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="lyricscontainer" style="margin-right: 6.25%; float:right; width: 40%; height: 62%; overflow-y: scroll; overflow-x: hidden;">
                 <div id="lyrics" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
             </div>
         </div>
@@ -106,15 +106,15 @@
         function resizeStuff() {
             console.log("Resized!");
             document.getElementById("ConcertoApp").style.height = window.innerHeight + "px";
-            document.getElementById("commands").style.height = (window.innerHeight * .64) + "px";
-            document.getElementById("lyricscontainer").style.height = (window.innerHeight * .64) + "px";
+            document.getElementById("commands").style.height = (window.innerHeight * .62) + "px";
+            document.getElementById("lyricscontainer").style.height = (window.innerHeight * .62) + "px";
 
-            if(document.getElementById("commandscontent").clientHeight + 6 > (window.innerHeight * .64)){
+            if(document.getElementById("commandscontent").clientHeight + 6 > (window.innerHeight * .62)){
                 document.getElementById("commands").style.overflowY = "scroll";
             } else {
                 document.getElementById("commands").style.overflowY = "hidden";
             }
-            if(document.getElementById("lyrics").clientHeight + 6> (window.innerHeight * .64)){
+            if(document.getElementById("lyrics").clientHeight + 6> (window.innerHeight * .62)){
                 document.getElementById("lyricscontainer").style.overflowY = "scroll";
             } else {
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
