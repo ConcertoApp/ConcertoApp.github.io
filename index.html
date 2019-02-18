@@ -264,7 +264,9 @@
         }
         function buttonpress2() {
             if (!playing && !loading) {
+                if(ishome){
                 document.getElementById("PlayBtn").style.visibility = "hidden";
+                }
                 playing = true;
                 playList(videos, durations, titles, 0);
             }
