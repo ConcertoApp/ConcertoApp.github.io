@@ -236,6 +236,7 @@
             });
         }
         /*--------------------------------------------BTUTON CODE----------------------------------------------*/
+        if(ishome){
         var input = document.getElementById("Input");
         input.addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -250,6 +251,7 @@
                 document.getElementById("linkBtn").click();
             }
         });
+        }
         function buttonpress() {
             if (!loading) {
                 loading = true;
