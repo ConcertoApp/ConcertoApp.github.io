@@ -119,7 +119,14 @@
             } else {
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
-        //    document.getElementById("content").style.marginTop = Math.round((((document.getElementById("ConcertoApp").clientHeight - document.getElementById("overlay").clientHeight) - document.getElementById("content").clientHeight) / 2)) + "px";
+            
+            document.getElementById("Edgygram").style.height = (window.innerHeight * .226) + "px";
+            document.getElementById("Edgygram").style.width = (window.innerHeight * .226) * 6.277 + "px";
+            if(document.getElementById("Edgygram").clientWidth > window.innerWidth){
+                document.getElementById("Edgygram").style.height = (document.getElementById("Edgygram").clientHeight / (document.getElementById("Edgygram").clientWidth / window.innerWidth)) + "px";
+                document.getElementById("Edgygram").style.width = "100%";
+            }
+            document.getElementById("Edgygram").style.marginLeft = ((window.innerWidth - document.getElementById("Edgygram").clientWidth) / 2) + "px";
         }
         /*----------------------------------------------UI CODE-------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
