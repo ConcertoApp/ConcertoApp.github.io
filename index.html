@@ -70,7 +70,7 @@
                     <div id="bottomcommands" style="visibility : hidden">
                         Seconds until start: <input class="EdgyInput" id="Seconds">
                         <button id="linkBtn" onclick="javascript:buttonpress3()" class="EdgyButton">Get Link</button>
-                        <div id="linkspot"></div><br>
+                        <div id="linkspot"></div>
                     </div>
                 </div>
             </div>
@@ -113,6 +113,9 @@
             document.getElementById("notgram").remove();
             document.getElementById("Hometl").remove();
             ishome = true;
+        } else {
+            document.getElementById("topcommands").remove();
+            document.getElementById("bottomcommands").remove();
         }
         /*--------------------------------------------RESIZE CODE-----------------------------------------------*/
         function resizeStuff2() {
@@ -132,6 +135,17 @@
             }
             
         */
+            
+            document.getElementById("commands").style.height = (window.innerHeight - document.getElementById("overlay").clientHeight - 30) + "px";
+            
+            if(document.getElementById("commandscontent").clientHeight > document.getElementById("commands").clientHeight){
+                document.getElementById("commands").style.overflowY = "scroll";
+            } else {
+                document.getElementById("commands").style.overflowY = "hidden";
+            }
+            
+            
+            
             
             document.getElementById("lyricscontainer").style.height = (window.innerHeight - document.getElementById("overlay").clientHeight - 30) + "px";
             
@@ -352,6 +366,7 @@
                 document.getElementById("countdown").innerHTML = timeStamp(Math.floor((startTime - Date.now()) / 1000));
             } else {
                 document.getElementById("countdown").innerHTML = "";
+                document.getElementById("countdown").remove();
             }
         }
         function listOut() {
