@@ -13,6 +13,7 @@
             font-variant-numeric: tabular-nums;
             margin: 0;
             color: #ff2024;
+            overflow:hidden;
         }
         .EdgyButton{
             margin-top: 4px;
@@ -41,16 +42,18 @@
 
 <body onload="resizeStuff()"; onresize="resizeStuff()">
 
-    <div id="ConcertoApp" style='overflow: hidden; background-color: black;'>
+    <div id="ConcertoApp" style='background-color: black;'>
 
         <div id="overlay">
-            <img id="Edgygram" src="concertomonogram.png" style="width:70%; margin-left: 15%; margin-top: 1%; margin-bottom: 3%;">
+            <img id="Edgygram" src="concertomonogram.png" style="width:70%; margin-left: 15%; margin-top: 10px; margin-bottom: 20px;">
             <div id="ProgBar" style="width: 0%; height: 10px; background-color: #ff2024;"></div><br>
-            <div id="countdown"></div><br>
+            <div id="notgram">
+                <div id="countdown"></div><br>
+            </div>
         </div>
 
         <div id="content" style="position: absolute; width: 100%;">
-            <div id="commands" style="margin-left: 6.25%; float:left; width: 40%; height: 62%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="commands" style="margin-left: 4.15%; margin-right: 4.15%; float:left; width: 40%; overflow-x: hidden;">
                 <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
                     <div id="topcommands">
                         <input id="Input" value="" class="EdgyInput">
@@ -58,9 +61,11 @@
                         <button id="PlayBtn" onclick="javascript:buttonpress2()" class="EdgyButtonHidden">Test</button>
                     </div>
 
+                    <div id="Hometl">
                     <br>
-                    <div id="Tracklist"></div>
+                    <div id="Tracklist" style="overflow-y: scroll;"></div>
                     <br>
+                    </div>
 
                     <div id="bottomcommands" style="visibility : hidden">
                         Seconds until start: <input class="EdgyInput" id="Seconds">
@@ -70,7 +75,7 @@
                 </div>
             </div>
 
-            <div id="lyricscontainer" style="margin-right: 6.25%; float:right; width: 40%; height: 62%; overflow-y: scroll; overflow-x: hidden;">
+            <div id="lyricscontainer" style="margin-right: 4.15%; float:right; width: 40%;">
                 <div id="lyrics" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
             </div>
         </div>
@@ -102,33 +107,49 @@
         var lyricsUrl;
         var lyrics;
         var currentDuration;
+        var ishome = false;
+        /*-------------------------------------------UI FORMATTING----------------------------------------------*/
+        if(window.location.hash == ""){
+            document.getElementById("notgram").remove();
+            document.getElementById("Hometl").remove();
+            ishome = true;
+        }
         /*--------------------------------------------RESIZE CODE-----------------------------------------------*/
+        function resizeStuff2() {
+            setTimeout(function(){
+                resizeStuff3();
+            }, 300);
+        }
         function resizeStuff() {
-            console.log("Resized!");
             document.getElementById("ConcertoApp").style.height = window.innerHeight + "px";
-            document.getElementById("commands").style.height = (window.innerHeight * .62) + "px";
-            document.getElementById("lyricscontainer").style.height = (window.innerHeight * .62) + "px";
+        //    document.getElementById("commands").style.height = (window.innerHeight * .62) + "px";
+        //    document.getElementById("lyricscontainer").style.height = (window.innerHeight * .62) + "px";
 
-            if(document.getElementById("commandscontent").clientHeight + 6 > (window.innerHeight * .62)){
+        /*    if(document.getElementById("commandscontent").clientHeight + 6 > (window.innerHeight * .62)){
                 document.getElementById("commands").style.overflowY = "scroll";
             } else {
                 document.getElementById("commands").style.overflowY = "hidden";
             }
-            if(document.getElementById("lyrics").clientHeight + 6> (window.innerHeight * .62)){
+            
+        */
+            
+            document.getElementById("lyricscontainer").style.height = (window.innerHeight - document.getElementById("overlay").clientHeight - 30) + "px";
+            
+            if(document.getElementById("lyrics").clientHeight > document.getElementById("lyricscontainer").clientHeight){
                 document.getElementById("lyricscontainer").style.overflowY = "scroll";
             } else {
                 document.getElementById("lyricscontainer").style.overflowY = "hidden";
             }
-            
-            document.getElementById("Edgygram").style.height = (window.innerHeight * .226) + "px";
-            document.getElementById("Edgygram").style.width = (window.innerHeight * .226) * 6.277 + "px";
+        
+            document.getElementById("Edgygram").style.height = Math.floor(window.innerHeight * .226) + "px";
+            document.getElementById("Edgygram").style.width = Math.floor(window.innerHeight * .226) * 6.277 + "px";
             if(document.getElementById("Edgygram").clientWidth > window.innerWidth){
                 document.getElementById("Edgygram").style.height = (document.getElementById("Edgygram").clientHeight / (document.getElementById("Edgygram").clientWidth / window.innerWidth)) + "px";
                 document.getElementById("Edgygram").style.width = "100%";
             }
             document.getElementById("Edgygram").style.marginLeft = ((window.innerWidth - document.getElementById("Edgygram").clientWidth) / 2) + "px";
         }
-        /*----------------------------------------------UI CODE-------------------------------------------------*/
+        /*---------------------------------------------PROG CODE------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
             document.getElementById("ProgBar").style.width = (duration / maxduration) * 100 + "%";
         }
@@ -139,6 +160,7 @@
                 setTimeout(function() {
                     currentDuration += .05;
                     updateProgBar(currentDuration, duration);
+                    resizeStuff();
                 }, i * 50);
             }
         }
@@ -167,7 +189,8 @@
                 getData(result);
                 document.getElementById("Btn").style.visibility = "visible";
                 document.getElementById("PlayBtn").style.visibility = "visible";
-                document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
+                //document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
+                document.getElementById("lyrics").innerHTML = document.getElementById("lyrics").innerHTML + timestamp + " | " + songtitle + "<br>";
                 titles.push(songtitle);
                 loading = false;
                 added = true;
@@ -184,6 +207,7 @@
                 var firstLyricsBit = result.substring(result.indexOf('<p id="songLyricsDiv"  class="songLyricsV14 iComment-text">') + 59);
                 lyrics = firstLyricsBit.substring(0, firstLyricsBit.indexOf('</div>'));
                 document.getElementById("lyrics").innerHTML = lyrics;
+                resizeStuff();
             });
         }
         function getLyricsSearchResults(myurl) {
@@ -226,7 +250,7 @@
             if (!playing && !loading) {
                 document.getElementById("PlayBtn").style.visibility = "hidden";
                 playing = true;
-                playList(videos, durations, titles);
+                playList(videos, durations, titles, 0);
             }
         }
         function buttonpress3() {
@@ -271,10 +295,10 @@
                 }, time);
             }
         }
-        function playList(videos, durations) {
+        function playList(videos, durations, titles, starthere) {
             var notFirst = false;
             var cumulativedur = 0;
-            for (i = 0; i < videos.length; i++) {
+            for (i = starthere; i < videos.length; i++) {
                 playdelay(videos[i], cumulativedur, notFirst, titles[i], durations[i]);
                 cumulativedur = cumulativedur + ((durations[i] + 6) * 1000);
                 notFirst = true;
