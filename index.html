@@ -65,7 +65,7 @@
 
                         <div id="Hometl">
                             <br>
-                            <div id="Tracklist"></div>
+                            <div id="Tracklist" style="display: inline-block;"></div>
                             <br>
                         </div>
 
@@ -171,13 +171,15 @@
             document.getElementById("Edgygram").style.marginLeft = Math.floor((window.innerWidth - document.getElementById("Edgygram").clientWidth) / 2) + "px";
             
             
-            
+            if(ishome){
             if(document.getElementById("topcommands").clientWidth > document.getElementById("bottomcommands").clientWidth){
                 document.getElementById("commandscontent").style.marginLeft = Math.floor((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("topcommands").clientWidth) * .75) + "px";
             } else {
                 document.getElementById("commandscontent").style.marginLeft = Math.floor((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("bottomcommands").clientWidth) * .75) + "px";
+            } } else {
+                document.getElementById("commandscontent").style.marginLeft = Math.floor((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("Tracklist").clientWidth) * .75) + "px";
             }
-                document.getElementById("lyrics").style.marginLeft = Math.floor((document.getElementById("reallyhopethisdivdoesntbreakanything").clientWidth - document.getElementById("lyrics").clientWidth) * .25) + "px";
+            document.getElementById("lyrics").style.marginLeft = Math.floor((document.getElementById("reallyhopethisdivdoesntbreakanything").clientWidth - document.getElementById("lyrics").clientWidth) * .25) + "px";
         }
         /*---------------------------------------------PROG CODE------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
