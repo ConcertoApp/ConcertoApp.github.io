@@ -31,6 +31,7 @@
             visibility: hidden;
         }
         .EdgyInput{
+            margin-top: 4px;
             font-family: 'Roboto', sans-serif;
             font-size: 18px; color: #ff2024;
             background-color: black;
@@ -53,30 +54,34 @@
         </div>
 
         <div id="content" style="position: absolute; width: 100%;">
-            <div id="commands" style="display: inline-block; margin-left: 4.15%; margin-right: 4.15%; float:left; width: 40%; overflow-x: hidden;">
-                <div id="commandscontent" style="display: inline-block; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
-                    <div id="topcommands" style="display: inline-block;">
-                        <input id="Input" value="" class="EdgyInput">
-                        <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
-                        <button id="PlayBtn" onclick="javascript:buttonpress2()" class="EdgyButtonHidden">Test</button>
-                    </div>
+            <div id="commands" style="margin-left: 6%; margin-right: 4%; float:left; width: 40%; overflow-x: hidden;">
+                <div id="seconddivthatmightbreakstuff">
+                    <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+                        <div id="topcommands" style="display: inline-block;">
+                            <input id="Input" value="" class="EdgyInput">
+                            <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
+                            <button id="PlayBtn" onclick="javascript:buttonpress2()" class="EdgyButtonHidden">Test</button>
+                        </div>
 
-                    <div id="Hometl">
-                    <br>
-                    <div id="Tracklist" style="overflow-y: scroll;"></div>
-                    <br>
-                    </div>
+                        <div id="Hometl">
+                            <br>
+                            <div id="Tracklist" style="overflow-y: scroll;"></div>
+                            <br>
+                        </div>
 
-                    <div id="bottomcommands" style="visibility: hidden; display: inline-block;">
-                        Seconds until start: <input class="EdgyInput" id="Seconds">
-                        <button id="linkBtn" onclick="javascript:buttonpress3()" class="EdgyButton">Get Link</button>
-                        <div id="linkspot"></div>
+                        <div id="bottomcommands" style="visibility: hidden; display: inline-block;">
+                            Seconds until start: <input class="EdgyInput" id="Seconds">
+                            <button id="linkBtn" onclick="javascript:buttonpress3()" class="EdgyButton">Get Link</button>
+                            <div id="linkspot"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="lyricscontainer" style="margin-right: 4.15%; float:right; width: 40%;">
-                <div id="lyrics" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
+            <div id="lyricscontainer" style="margin-left: 4%;margin-right: 6%; float:right; width: 40%;">
+                <div id="reallyhopethisdivdoesntbreakanything">
+                    <div id="lyrics" style="display: inline-block; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
+                </div>
             </div>
         </div>
 
@@ -162,6 +167,15 @@
                 document.getElementById("Edgygram").style.width = "100%";
             }
             document.getElementById("Edgygram").style.marginLeft = ((window.innerWidth - document.getElementById("Edgygram").clientWidth) / 2) + "px";
+            
+            
+            
+            if(document.getElementById("topcommands").clientWidth > document.getElementById("bottomcommands").clientWidth){
+                document.getElementById("commandscontent").style.marginLeft = ((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("topcommands").clientWidth) * .666) + "px";
+            } else {
+                document.getElementById("commandscontent").style.marginLeft = ((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("bottomcommands").clientWidth) * .666) + "px";
+            }
+                document.getElementById("lyrics").style.marginLeft = ((document.getElementById("reallyhopethisdivdoesntbreakanything").clientWidth - document.getElementById("lyrics").clientWidth) * .333) + "px";
         }
         /*---------------------------------------------PROG CODE------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
@@ -334,7 +348,7 @@
         function removeVideo() {
             ifrm.remove();
         }
-        /*------------------------------------------JOIN CODE----------------------------------------------*/
+        /*------------------------------------------JOIN CODE (AND ALSO SOME UI STUFF I DON"T WANT TO MOVE-----------------*/
         if (window.location.hash.length > 0) {
             setInterval(onTimerTick, 33);
             startTime = hash.substring(1, hash.indexOf("&"));
@@ -351,6 +365,10 @@
             setTimeout(function() {
                 buttonpress2();
             }, startTime - currentTime);
+        } else {
+            setTimeout(function() {
+                setInterval(resizeStuff, 33);
+            }, 100);
         }
         function getLink(time, videos, durations) {
             hashlist = [];
