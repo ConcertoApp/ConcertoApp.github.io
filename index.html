@@ -60,7 +60,6 @@
                         <div id="topcommands" style="display: inline-block;">
                             <input id="Input" value="" class="EdgyInput">
                             <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
-                            <button id="PlayBtn" onclick="javascript:buttonpress2()" class="EdgyButtonHidden">Test</button>
                         </div>
 
                         <div id="Hometl">
@@ -221,7 +220,6 @@
             }, function printResult(result) {
                 getData(result);
                 document.getElementById("Btn").style.visibility = "visible";
-                document.getElementById("PlayBtn").style.visibility = "visible";
                 //document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
                 document.getElementById("lyrics").innerHTML = document.getElementById("lyrics").innerHTML + timestamp + " | " + songtitle + "<br>";
                 titles.push(songtitle);
@@ -276,16 +274,12 @@
                 loading = true;
                 document.getElementById("linkBtn").style.visibility = "hidden";
                 document.getElementById("Btn").style.visibility = "hidden";
-                document.getElementById("PlayBtn").style.visibility = "hidden";
                 dataFromName(document.getElementById("Input").value);
                 document.getElementById("Input").value = "";
             }
         }
         function buttonpress2() {
             if (!playing && !loading) {
-                if(ishome){
-                document.getElementById("PlayBtn").style.visibility = "hidden";
-                }
                 playing = true;
                 playList(videos, durations, titles, 0);
             }
