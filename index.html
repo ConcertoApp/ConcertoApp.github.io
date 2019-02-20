@@ -392,7 +392,7 @@
             if (Math.floor((startTime - Date.now()) / 1000) > 0) {
                 document.getElementById("countdown").innerHTML = timeStamp(Math.floor((startTime - Date.now()) / 1000));
             } else {
-                document.getElementById("countdown").innerHTML = edgyname;
+                document.getElementById("countdown").innerHTML = edgyname.replace(/\b\w/g, l => l.toUpperCase());
             }
         }
         function listOut() {
