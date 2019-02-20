@@ -65,7 +65,7 @@
 
                         <div id="Hometl">
                             <br>
-                            <div id="Tracklist" style="overflow-y: scroll;"></div>
+                            <div id="Tracklist"></div>
                             <br>
                         </div>
 
@@ -121,6 +121,8 @@
         } else {
             document.getElementById("topcommands").remove();
             document.getElementById("bottomcommands").remove();
+            document.getElementById("Hometl").children[0].remove();
+            document.getElementById("Hometl").children[1].remove();
         }
         /*--------------------------------------------RESIZE CODE-----------------------------------------------*/
         function resizeStuff2() {
