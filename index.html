@@ -47,10 +47,10 @@
 
         <div id="overlay">
             <img id="Edgygram" src="concertomonogram.png" style="width:70%; margin-left: 15%; margin-top: 10px; margin-bottom: 20px;">
-            <div id="ProgBar" style="width: 0%; height: 10px; background-color: #ff2024;"></div><br>
             <div id="notgram">
-                <div id="countdown"></div><br>
+                <div id="countdown" style="text-align: center"></div><br>
             </div>
+            <div id="ProgBar" style="width: 0%; height: 10px; background-color: #ff2024;"></div><br>
         </div>
 
         <div id="content" style="position: absolute; width: 100%;">
@@ -113,6 +113,7 @@
         var lyrics;
         var currentDuration;
         var ishome = false;
+        var edgyname = "";
         /*-------------------------------------------UI FORMATTING----------------------------------------------*/
         if(window.location.hash == ""){
             document.getElementById("notgram").remove();
@@ -346,6 +347,7 @@
             document.getElementById("iframehere").appendChild(ifrm);
             ifrm.setAttribute('src', 'https://www.youtube.com/embed/' + url + '?ecver=1&autoplay=1&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=560&width=560');
             ifrm.setAttribute('allow', "autoplay");
+            edgyname = friendlyname;
             LyricsFromName(friendlyname);
             playProgBar(length);
         }
@@ -390,7 +392,7 @@
             if (Math.floor((startTime - Date.now()) / 1000) > 0) {
                 document.getElementById("countdown").innerHTML = timeStamp(Math.floor((startTime - Date.now()) / 1000));
             } else {
-                document.getElementById("countdown").innerHTML = "";
+                document.getElementById("countdown").innerHTML = edgyname;
             }
         }
         function listOut() {
