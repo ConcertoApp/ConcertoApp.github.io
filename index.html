@@ -165,7 +165,7 @@
             document.getElementById("Edgygram").style.height = Math.floor(window.innerHeight * .226) + "px";
             document.getElementById("Edgygram").style.width = Math.floor(window.innerHeight * .226) * 6.277 + "px";
             if(document.getElementById("Edgygram").clientWidth > window.innerWidth){
-                document.getElementById("Edgygram").style.height = (document.getElementById("Edgygram").clientHeight / (document.getElementById("Edgygram").clientWidth / window.innerWidth)) + "px";
+                document.getElementById("Edgygram").style.height = Math.floor(document.getElementById("Edgygram").clientHeight / (document.getElementById("Edgygram").clientWidth / window.innerWidth)) + "px";
                 document.getElementById("Edgygram").style.width = "100%";
             }
             document.getElementById("Edgygram").style.marginLeft = ((window.innerWidth - document.getElementById("Edgygram").clientWidth) / 2) + "px";
@@ -173,11 +173,11 @@
             
             
             if(document.getElementById("topcommands").clientWidth > document.getElementById("bottomcommands").clientWidth){
-                document.getElementById("commandscontent").style.marginLeft = ((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("topcommands").clientWidth) * .666) + "px";
+                document.getElementById("commandscontent").style.marginLeft = Math.floor((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("topcommands").clientWidth) * .75) + "px";
             } else {
-                document.getElementById("commandscontent").style.marginLeft = ((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("bottomcommands").clientWidth) * .666) + "px";
+                document.getElementById("commandscontent").style.marginLeft = Math.floor((document.getElementById("seconddivthatmightbreakstuff").clientWidth - document.getElementById("bottomcommands").clientWidth) * .75) + "px";
             }
-                document.getElementById("lyrics").style.marginLeft = ((document.getElementById("reallyhopethisdivdoesntbreakanything").clientWidth - document.getElementById("lyrics").clientWidth) * .333) + "px";
+                document.getElementById("lyrics").style.marginLeft = Math.floor((document.getElementById("reallyhopethisdivdoesntbreakanything").clientWidth - document.getElementById("lyrics").clientWidth) * .25) + "px";
         }
         /*---------------------------------------------PROG CODE------------------------------------------------*/
         function updateProgBar(duration, maxduration) {
