@@ -124,6 +124,7 @@
                         <div id="topcommands" style="display: inline-block;">
                             <input id="Input" value="" class="EdgyInput">
                             <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
+                            <br>
                         </div>
 
                         <div id="Hometl">
@@ -342,6 +343,20 @@
         function buttonpress() {
             if (!loading) {
                 loading = true;
+                
+                document.getElementById("explosivetext").style.display = "block";
+            
+            
+            var LOADINGTHING = new Image();
+                var mybr = document.createElement('br');
+                mybr.id="KILLTHISBR";
+                
+            LOADINGTHING.src = 'loader.gif';
+                LOADINGTHING.id = 'theloadingdog';
+                document.getElementById("CANCELDOGGIE").appendChild(mybr);
+                document.getElementById("CANCELDOGGIE").appendChild(LOADINGTHING);
+                document.getElementById("dogcontainer").style.visibility = "hidden";
+                
                 document.getElementById("linkBtn").style.visibility = "hidden";
                 document.getElementById("Btn").style.visibility = "hidden";
                 dataFromName(document.getElementById("Input").value);
@@ -398,7 +413,12 @@
             thedogelem.getElementsByClassName("details")[0].children[0].outerHTML = thedogelem.getElementsByClassName("details")[0].children[0].outerHTML.toString().splice(3, 0, ("onclick='" + thebigwacwach + "'"));
         }
         
-        function STYLIZEDOGPILE(songtitle){            
+        function STYLIZEDOGPILE(songtitle){
+            
+            document.getElementById("theloadingdog").remove();  
+            document.getElementById("KILLTHISBR").remove();  
+            document.getElementById("dogcontainer").style.visibility = "visible";
+            
             var divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("label");
             divstocheck[0].innerHTML = "Pull audio from where?";
             divstocheck[0].style.fontSize = "36px";
@@ -457,10 +477,7 @@
             document.getElementById("ILLEGALDOGPILE").appendChild(document.getElementById("LEGALITYKILLER").getElementsByClassName("video-bing")[0]);
             document.getElementById("LEGALITYKILLER").innerHTML = "";
            
-            document.getElementById("explosivetext").style.display = "block";
             STYLIZEDOGPILE(songtitle);
-            
-            
             
             //OLD BELOW
             /*
