@@ -100,7 +100,7 @@
     
     <div id="explosivetext">
         <div id="dogcontainercontainer" style = "width:50%; height:90%;">
-            <div id="CANCELDOGGIE" style="width: 90%; text-align: center"><a href="javascript:GOTCANCEL()">Cancel Addition</a></div>
+            <div id="CANCELDOGGIE" style="width: 90%; text-align: center"><a href="javascript:void(0)" onclick="GOTCANCEL()">Cancel Addition</a></div>
         <div id="dogcontainer" style="width: 100%; height:100%; overflow-y: scroll;">
         <div id="ILLEGALDOGPILE"></div>
             </div>
@@ -384,11 +384,18 @@
         }
         
        function REPLACEDOGLINKS(thedogelem, songtitle){
+           
+            String.prototype.splice = function(idx, rem, str) {
+                return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+            };
+           
             var templongdog = thedogelem.getElementsByClassName("duration")[0].innerHTML.substring(2);
             var tempdogurl = thedogelem.getElementsByClassName("title")[0].href + "";
-            var thebigwacwach = 'javascript:' + 'getDataThreeThirty("' + tempdogurl + '","' + templongdog + '","' + songtitle + '");';
-            thedogelem.getElementsByClassName("title")[0].href = thebigwacwach;
-            thedogelem.getElementsByClassName("details")[0].children[0].href = thebigwacwach;
+            var thebigwacwach = 'javascript:' + 'getDataThreeThirty("' + tempdogurl + '","' + templongdog + '","' + songtitle + '") ';
+            thedogelem.getElementsByClassName("title")[0].href = "javascript:void(0)";
+            thedogelem.getElementsByClassName("title")[0].outerHTML = thedogelem.getElementsByClassName("title")[0].outerHTML.toString().splice(17, 0, ("onclick='" + thebigwacwach + "'"));
+            thedogelem.getElementsByClassName("details")[0].children[0].href = "javascript:void(0)";
+            thedogelem.getElementsByClassName("details")[0].children[0].outerHTML = thedogelem.getElementsByClassName("details")[0].children[0].outerHTML.toString().splice(3, 0, ("onclick='" + thebigwacwach + "'"));
         }
         
         function STYLIZEDOGPILE(songtitle){            
