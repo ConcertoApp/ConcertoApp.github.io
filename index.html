@@ -391,10 +391,10 @@
            
             var templongdog = thedogelem.getElementsByClassName("duration")[0].innerHTML.substring(2);
             var tempdogurl = thedogelem.getElementsByClassName("title")[0].href + "";
-            var thebigwacwach = 'javascript:' + 'getDataThreeThirty("' + tempdogurl + '","' + templongdog + '","' + songtitle + '") ';
-            thedogelem.getElementsByClassName("title")[0].href = "javascript:void(0)";
+            var thebigwacwach = 'getDataThreeThirty("' + tempdogurl + '","' + templongdog + '","' + songtitle + '") ';
+            thedogelem.getElementsByClassName("title")[0].removeAttribute("href");
             thedogelem.getElementsByClassName("title")[0].outerHTML = thedogelem.getElementsByClassName("title")[0].outerHTML.toString().splice(17, 0, ("onclick='" + thebigwacwach + "'"));
-            thedogelem.getElementsByClassName("details")[0].children[0].href = "javascript:void(0)";
+            thedogelem.getElementsByClassName("details")[0].children[0].removeAttribute("href");
             thedogelem.getElementsByClassName("details")[0].children[0].outerHTML = thedogelem.getElementsByClassName("details")[0].children[0].outerHTML.toString().splice(3, 0, ("onclick='" + thebigwacwach + "'"));
         }
         
@@ -499,6 +499,8 @@
             document.getElementById("topcommands").style.visibility = "visible";
             document.getElementById("bottomcommands").style.visibility = "visible";
             document.getElementById("explosivetext").style.display = "none";
+            
+            document.getElementById("ILLEGALDOGPILE").innerHTML = "";
         }
         
         
