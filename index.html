@@ -37,11 +37,75 @@
             background-color: black;
             border: 3px solid #ff2024;
         }
+        .video{
+            border: 3px solid #ff2024;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            padding-left: 3px;
+            padding-right: 3px;
+            float:left;
+            width:90%;
+        }
+        .title{
+            color: #ff2024;
+            float: left;
+            width: 50%;
+        }
+        .duration{
+            color: #ff2024;
+            float: right;
+            display: inline-block;
+        }
+        .thumbnail{
+            width: 50%;
+            height: auto;
+            float: right;
+            display: inline-block;
+        }
+        a {
+            color: #ff2024;
+        }
+        #explosivetext {
+            position: fixed; /* Sit on top of the page content */
+            display: none; /* Hidden by default */
+            width: 100%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            top: 0; 
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.8); /* Black background with opacity */
+            z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer; /* Add a pointer on hover */
+        }
+        #dogcontainercontainer {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            /* bring your own prefixes */
+            transform: translate(-50%, -50%);
+        }
+
+           
+  /* bring your own prefixes */
+  transform: translate(-50%, 0%);
+        }
     </style>
     
 </head>
 
 <body onload="resizeStuff()"; onresize="resizeStuff()">
+    
+    <div id="explosivetext">
+        <div id="dogcontainercontainer" style = "width:50%; height:90%;">
+            <div id="CANCELDOGGIE" style="width: 90%; text-align: center"><a href="javascript:GOTCANCEL()">Cancel Addition</a></div>
+        <div id="dogcontainer" style="width: 100%; height:100%; overflow-y: scroll;">
+        <div id="ILLEGALDOGPILE"></div>
+            </div>
+        </div>
+    </div>
 
     <div id="ConcertoApp" style='background-color: black;'>
 
@@ -72,6 +136,7 @@
                             Seconds until start: <input class="EdgyInput" id="Seconds">
                             <button id="linkBtn" onclick="javascript:buttonpress3()" class="EdgyButton">Get Link</button>
                             <div id="linkspot"></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -86,7 +151,9 @@
 
         <div id="CHROMEKILLER" style="position:absolute; width:1px; height: 1px; overflow: hidden;">
             <div id="iframehere" style="padding-left: 500px;"></div>
+            <div id="LEGALITYKILLER" style="position:absolute; width:1px; height: 1px; overflow: hidden;"></div>
         </div>
+        
 
     </div>
 
@@ -213,12 +280,14 @@
             x.send(options.data);
         }
         function getDataOnly(myurl, songtitle) {
+            console.log("LOCATION BEING FETHEDC IS " + myurl)
             doCORSRequest({
                 method: 'GET',
                 url: myurl,
                 data: ""
             }, function printResult(result) {
-                getData(result);
+                getData(result, songtitle);
+                /*
                 document.getElementById("Btn").style.visibility = "visible";
                 //document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
                 document.getElementById("lyrics").innerHTML = document.getElementById("lyrics").innerHTML + timestamp + " | " + songtitle + "<br>";
@@ -227,6 +296,7 @@
                 added = true;
                 document.getElementById("bottomcommands").style.visibility = "visible";
                 document.getElementById("linkBtn").style.visibility = "visible";
+                */
             });
         }
         function getLyricsFromUrl(myurl) {
@@ -298,7 +368,95 @@
             location.reload();
         }
         /*--------------------------------------------MAKE CODE---------------------------------------------*/
-        function getData(result) {
+        function GOTCANCEL(){
+            document.getElementById("Btn").style.visibility = "visible";
+            reshowonlyifathing();
+            document.getElementById("topcommands").style.visibility = "visible";
+            document.getElementById("explosivetext").style.display = "none";
+            loading = false;
+        }
+        
+        function reshowonlyifathing(){
+            if(titles.length > 0){
+            document.getElementById("linkBtn").style.visibility = "visible";
+                
+            }
+        }
+        
+       function REPLACEDOGLINKS(thedogelem, songtitle){
+            var templongdog = thedogelem.getElementsByClassName("duration")[0].innerHTML.substring(2);
+            var tempdogurl = thedogelem.getElementsByClassName("title")[0].href + "";
+            var thebigwacwach = 'javascript:' + 'getDataThreeThirty("' + tempdogurl + '","' + templongdog + '","' + songtitle + '");';
+            thedogelem.getElementsByClassName("title")[0].href = thebigwacwach;
+            thedogelem.getElementsByClassName("details")[0].children[0].href = thebigwacwach;
+        }
+        
+        function STYLIZEDOGPILE(songtitle){            
+            var divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("label");
+            divstocheck[0].innerHTML = "Pull audio from where?";
+            divstocheck[0].style.fontSize = "36px";
+            
+            divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("description");
+            var divstodelete = [];
+            for(var i = 0; i<divstocheck.length; i++){
+                divstodelete.push(divstocheck[i]);
+            }
+            for(var i = 0; i<divstodelete.length; i++){
+                divstodelete[i].remove();
+            }
+            
+            divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("url");
+            divstodelete = [];
+            for(var i = 0; i<divstocheck.length; i++){
+                divstodelete.push(divstocheck[i]);
+            }
+            for(var i = 0; i<divstodelete.length; i++){
+                divstodelete[i].remove();
+            }
+            
+            divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("info");
+            divstodelete = [];
+            for(var i = 0; i<divstocheck.length; i++){
+                divstodelete.push(divstocheck[i]);
+            }
+            for(var i = 0; i<divstodelete.length; i++){
+                divstodelete[i].remove();
+            }
+            
+            divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("video");
+            divstodelete = [];
+            for(var i = 0; i<divstocheck.length; i++){
+                if(document.getElementById("ILLEGALDOGPILE").getElementsByClassName("video")[i].children[0].href.substring(0, 32) != "https://www.youtube.com/watch?v="){
+                    divstodelete.push(document.getElementById("ILLEGALDOGPILE").getElementsByClassName("video")[i]);
+                }
+            }
+            for(var i = 0; i<divstodelete.length; i++){
+                divstodelete[i].remove();
+            }
+            
+            divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("thumbnail");
+            for(var i = 0; i<divstocheck.length; i++){
+                divstocheck[i].children[0].style = "width: 100%; height: auto;";
+            }
+            
+            divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("video");
+            for(var i = 0; i<divstocheck.length; i++){
+                REPLACEDOGLINKS(divstocheck[i], songtitle);
+            }
+        }
+        
+        function getData(result, songtitle) {
+            document.getElementById("LEGALITYKILLER").innerHTML = result.substring(result.indexOf('<!doctype html>'));
+            document.getElementById("ILLEGALDOGPILE").appendChild(document.getElementById("LEGALITYKILLER").getElementsByClassName("video-bing")[0]);
+            document.getElementById("LEGALITYKILLER").innerHTML = "";
+           
+            document.getElementById("explosivetext").style.display = "block";
+            STYLIZEDOGPILE(songtitle);
+            
+            
+            
+            //OLD BELOW
+            /*
             var firstbit = result.substring(result.indexOf('https://www.youtube.com'));
             youtubeURL = firstbit.substring(0, firstbit.indexOf('"'));
             youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);
@@ -309,7 +467,34 @@
             duration = (minutes * 60) + seconds;
             durations.push(duration);
             videos.push(youtubeID);
+            */
         }
+        
+        
+        function getDataThreeThirty(DOGURL, LONGDOG, songtitle){
+            console.log("WOOF WOOF");
+            youtubeURL = DOGURL;
+            youtubeID = youtubeURL.substring(youtubeURL.indexOf('watch?v=') + 8);
+            timestamp = LONGDOG;
+            var minutes = Math.floor(timestamp.substring(0, timestamp.indexOf(":")));
+            var seconds = Math.floor(timestamp.substring(timestamp.indexOf(":") + 1));
+            duration = (minutes * 60) + seconds;
+            durations.push(duration);
+            videos.push(youtubeID);
+            
+            document.getElementById("Btn").style.visibility = "visible";
+            //document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
+            document.getElementById("lyrics").innerHTML = document.getElementById("lyrics").innerHTML + timestamp + " | " + songtitle + "<br>";
+            titles.push(songtitle);
+            loading = false;
+            added = true;
+            document.getElementById("linkBtn").style.visibility = "visible";
+            document.getElementById("topcommands").style.visibility = "visible";
+            document.getElementById("bottomcommands").style.visibility = "visible";
+            document.getElementById("explosivetext").style.display = "none";
+        }
+        
+        
         function dataFromName(query) {
             getDataOnly("http://results.dogpile.com/serp?qc=video&q=" + query.split(' ').join('+'), query);
         }
