@@ -9,7 +9,7 @@
     <style>
         body{
             font-family: 'Roboto', sans-serif;
-            font-size: 18px;
+            font-size: 20px;
             font-variant-numeric: tabular-nums;
             margin: 0;
             color: #ff2024;
@@ -18,24 +18,32 @@
         .EdgyButton{
             margin-top: 4px;
             font-family: 'Roboto', sans-serif;
-            font-size: 18px;
+            font-size: 20px;
             background-color: #ff2024;
-            border: 4px solid #ff2024;
+            border: 5px solid #ff2024;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-left: 6px;
+            padding-right: 6px;
+            border-radius: 4px;
         }
         .EdgyButtonHidden{
             margin-top: 4px;
             font-family: 'Roboto', sans-serif;
-            font-size: 18px;
+            font-size: 20px;
             background-color: #ff2024;
             border: 4px solid #ff2024;
             visibility: hidden;
+            border-radius: 4px;
         }
         .EdgyInput{
             margin-top: 4px;
             font-family: 'Roboto', sans-serif;
-            font-size: 18px; color: #ff2024;
+            font-size: 20px; color: #ff2024;
             background-color: black;
-            border: 3px solid #ff2024;
+            border: 4px solid #ff2024;
+            outline: none;
+            border-radius: 4px;
         }
         .video{
             border: 3px solid #ff2024;
@@ -47,6 +55,7 @@
             padding-right: 3px;
             float:left;
             width:90%;
+            text-align: left;
         }
         .title{
             color: #ff2024;
@@ -81,11 +90,38 @@
             cursor: pointer; /* Add a pointer on hover */
         }
         #dogcontainercontainer {
+            
             position: fixed;
             left: 50%;
             top: 50%;
             /* bring your own prefixes */
             transform: translate(-50%, -50%);
+            max-width: 650px;
+        }
+        ::placeholder {
+            color: #7e0407;
+            text-align: center;
+        }
+        input:focus {
+            border: double 4px transparent;
+            border-top: double 3px transparent;
+            border-bottom: double 3px transparent;
+  border-radius: 4px;
+  background-image: linear-gradient(black, black), radial-gradient(circle at top left, #ff4d03, #ff0961);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+            height: 26px;
+        }
+        .label { 
+            font-size: 60px;
+            background: linear-gradient(to right, #ff4d03, #ff0961);;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            display: inline-block
+        }
+        .video-bing {
+            text-align: center;
         }
 
            
@@ -94,6 +130,8 @@
         }
     </style>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    
 </head>
 
 <body onload="resizeStuff()"; onresize="resizeStuff()">
@@ -101,7 +139,7 @@
     <div id="explosivetext">
         <div id="dogcontainercontainer" style = "width:50%; height:90%;">
             <div id="CANCELDOGGIE" style="width: 90%; text-align: center"><a href="javascript:void(0)" onclick="GOTCANCEL()">Cancel Addition</a></div>
-        <div id="dogcontainer" style="width: 100%; height:100%; overflow-y: scroll;">
+        <div id="dogcontainer" style="margin-top: 5px; width: 100%; height:100%; overflow-y: scroll;">
         <div id="ILLEGALDOGPILE"></div>
             </div>
         </div>
@@ -121,8 +159,9 @@
             <div id="commands" style="margin-left: 6%; margin-right: 4%; float:left; width: 40%; overflow-x: hidden;">
                 <div id="seconddivthatmightbreakstuff">
                     <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
-                        <div id="topcommands" style="display: inline-block;">
-                            <input id="Input" value="" class="EdgyInput">
+                        <div id="topcommands" style="display: inline-block; text-align: center;">
+                            <div class="label">Controls</div><br>
+                            <input placeholder="Song title and artist"id="Input" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Song title and artist'" value="" class="EdgyInput">
                             <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
                             <br>
                         </div>
@@ -134,7 +173,7 @@
                         </div>
 
                         <div id="bottomcommands" style="visibility: hidden; display: inline-block;">
-                            Seconds until start: <input class="EdgyInput" id="Seconds">
+                            <input placeholder="Seconds until start"class="EdgyInput" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Seconds until start'" id="Seconds">
                             <button id="linkBtn" onclick="javascript:buttonpress3()" class="EdgyButton">Get Link</button>
                             <div id="linkspot"></div>
                             
@@ -145,7 +184,12 @@
 
             <div id="lyricscontainer" style="margin-left: 4%;margin-right: 6%; float:right; width: 40%;">
                 <div id="reallyhopethisdivdoesntbreakanything">
-                    <div id="lyrics" style="display: inline-block; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;"></div>
+                    <div style="text-align: center">
+                        <div class="label">Setlist</div><div id="emptylist" style="text-align: center;">Your setlist is empty. Add some songs!</div>
+                    </div>
+                    <div id="lyrics" style="display: inline-block; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -388,6 +432,7 @@
             reshowonlyifathing();
             document.getElementById("topcommands").style.visibility = "visible";
             document.getElementById("explosivetext").style.display = "none";
+            document.getElementById("ILLEGALDOGPILE").removeChild(document.getElementsByClassName("video-bing")[0]);
             loading = false;
         }
         
@@ -420,8 +465,8 @@
             document.getElementById("dogcontainer").style.visibility = "visible";
             
             var divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("label");
-            divstocheck[0].innerHTML = "Pull audio from where?";
-            divstocheck[0].style.fontSize = "36px";
+            divstocheck[0].innerHTML = "Audio Source?";
+            divstocheck[0].style.marginRight = "10%";
             
             divstocheck = document.getElementById("ILLEGALDOGPILE").getElementsByClassName("description");
             var divstodelete = [];
@@ -508,8 +553,10 @@
             
             document.getElementById("Btn").style.visibility = "visible";
             //document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
+            document.getElementById("emptylist").remove();
             document.getElementById("lyrics").innerHTML = document.getElementById("lyrics").innerHTML + timestamp + " | " + songtitle + "<br>";
             titles.push(songtitle);
+            document.getElementById("ILLEGALDOGPILE").removeChild(document.getElementsByClassName("video-bing")[0]);
             loading = false;
             added = true;
             document.getElementById("linkBtn").style.visibility = "visible";
