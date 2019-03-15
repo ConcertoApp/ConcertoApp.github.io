@@ -139,7 +139,7 @@
     
     <div id="explosivetext">
         <div id="dogcontainercontainer" style = "width:50%; height:90%;">
-            <div id="CANCELDOGGIE" style="width: 90%; text-align: center"><a href="javascript:void(0)" onclick="GOTCANCEL()">Cancel Addition</a></div>
+            <div id="CANCELDOGGIE" style=" width: 90%; text-align: center"><a id="memememe" style="visibility:hidden" href="javascript:void(0)" onclick="GOTCANCEL()">Cancel Addition</a></div>
         <div id="dogcontainer" style="margin-top: 5px; width: 100%; height:100%; overflow-y: scroll;">
         <div id="ILLEGALDOGPILE"></div>
             </div>
@@ -159,9 +159,10 @@
         <div id="content" style="position: absolute; width: 100%;">
             <div id="commands" style="margin-left: 6%; margin-right: 4%; float:left; width: 40%; overflow-x: hidden;">
                 <div id="seconddivthatmightbreakstuff">
-                    <div id="commandscontent" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+                    <div id="commandscontent" style="text-align: center; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+                        <div id="controlslabel" class="label">Controls</div><br>
                         <div id="topcommands" style="display: inline-block; text-align: center;">
-                            <div class="label">Controls</div><br>
+                            
                             <input placeholder="Song title and artist"id="Input" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Song title and artist'" value="" class="EdgyInput">
                             <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
                             <br>
@@ -186,7 +187,7 @@
             <div id="lyricscontainer" style="margin-left: 4%;margin-right: 6%; float:right; width: 40%;">
                 <div id="reallyhopethisdivdoesntbreakanything">
                     <div style="text-align: center">
-                        <div class="label">Setlist</div><div id="emptylist" style="text-align: center;">Your setlist is empty. Add some songs!</div>
+                        <div id="Setlistlabel" class="label">Setlist</div><div id="emptylist" style="text-align: center;">Your setlist is empty. Add some songs!</div>
                     </div>
                     <div id="lyrics" style="display: inline-block; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
                         
@@ -236,6 +237,9 @@
             document.getElementById("bottomcommands").remove();
             document.getElementById("Hometl").children[0].remove();
             document.getElementById("Hometl").children[1].remove();
+            document.getElementById("Setlistlabel").innerHTML = "Lyrics";
+            document.getElementById("Setlistlabel").innerHTML = "controlslabel";
+            document.getElementById("emptylist").remove();
         }
         /*--------------------------------------------RESIZE CODE-----------------------------------------------*/
         function resizeStuff2() {
@@ -391,7 +395,8 @@
                 
                 document.getElementById("explosivetext").style.display = "block";
             
-            
+            document.getElementById("memememe").style.visibility = "hidden";
+                
             var LOADINGTHING = new Image();
                 var mybr = document.createElement('br');
                 mybr.id="KILLTHISBR";
@@ -461,6 +466,8 @@
         
         function STYLIZEDOGPILE(songtitle){
             
+            document.getElementById("memememe").style.visibility = "visible";
+            
             document.getElementById("theloadingdog").remove();  
             document.getElementById("KILLTHISBR").remove();  
             document.getElementById("dogcontainer").style.visibility = "visible";
@@ -522,6 +529,7 @@
             document.getElementById("LEGALITYKILLER").innerHTML = result.substring(result.indexOf('<!doctype html>'));
             document.getElementById("ILLEGALDOGPILE").appendChild(document.getElementById("LEGALITYKILLER").getElementsByClassName("video-bing")[0]);
             document.getElementById("LEGALITYKILLER").innerHTML = "";
+
            
             STYLIZEDOGPILE(songtitle);
             
