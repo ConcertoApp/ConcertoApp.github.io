@@ -161,7 +161,8 @@
                 <div id="seconddivthatmightbreakstuff">
                     <div id="commandscontent" style="text-align: center; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
                         <div id="controlslabel" class="label">Controls</div><br>
-                        <div id="topcommands" style="display: inline-block; text-align: center;">
+                        <div style="text-align: left;">
+                        <div id="topcommands" style="display: inline-block;">
                             
                             <input placeholder="Song title and artist"id="Input" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Song title and artist'" value="" class="EdgyInput">
                             <button id="Btn" onclick="javascript:buttonpress()" class="EdgyButton">Add Song</button>
@@ -180,6 +181,7 @@
                             <div id="linkspot"></div>
                             
                         </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -238,7 +240,7 @@
             document.getElementById("Hometl").children[0].remove();
             document.getElementById("Hometl").children[1].remove();
             document.getElementById("Setlistlabel").innerHTML = "Lyrics";
-            document.getElementById("Setlistlabel").innerHTML = "controlslabel";
+            document.getElementById("controlslabel").innerHTML = "Setlist";
             document.getElementById("emptylist").remove();
         }
         /*--------------------------------------------RESIZE CODE-----------------------------------------------*/
