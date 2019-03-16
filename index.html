@@ -229,6 +229,7 @@
         var currentDuration;
         var ishome = false;
         var edgyname = "";
+        var samfix = 0;
         /*-------------------------------------------UI FORMATTING----------------------------------------------*/
         if(window.location.hash == ""){
             document.getElementById("notgram").remove();
@@ -564,7 +565,11 @@
             
             document.getElementById("Btn").style.visibility = "visible";
             //document.getElementById("Tracklist").innerHTML = document.getElementById("Tracklist").innerHTML + timestamp + " | " + songtitle + "<br>";
+        if(samfix ==0){
+            samfix= 1;
             document.getElementById("emptylist").remove();
+        }
+            
             document.getElementById("lyrics").innerHTML = document.getElementById("lyrics").innerHTML + timestamp + " | " + songtitle + "<br>";
             titles.push(songtitle);
             document.getElementById("ILLEGALDOGPILE").removeChild(document.getElementsByClassName("video-bing")[0]);
